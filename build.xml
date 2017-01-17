@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="ECMS" default="build">
+
+ 
+
+<target name="build" description="PHPUNIT,Composer insall" depends="test"> 
+	
+	<echo msg="Build Passed" /> 
+
+</target> 
+
+ <target name="test">
+    <composer composer="/usr/local/bin/composer" command="install"> </composer>
+
+  <copy file=".env.ci" tofile=".env" overwrite="true"/>
+
+  <exec logoutput="true" command="php artisan key:generate" />
+
+  <exec logoutput="true" command="php artisan migrate" />
+	
+
+	<phpunit configuration="./phpunit.xml" haltonfailure="true" haltonerror="true" printsummary="true">
+      <batchtest>
+        <fileset dir="./tests">
+          <include name="*Test.php"/>
+        </fileset>
+      </batchtest>
+    </phpunit>
+
+<!--   <exec logoutput="true" command="php artisan migrate:rollback" /> -->
+
+ </target> 
+
+ 
+
+
+</project>
