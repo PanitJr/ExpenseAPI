@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Object\Profile;
+namespace App\Object\Profiles;
 
 use App\CC\Error\ApiException;
 use Illuminate\Database\Eloquent\Model;

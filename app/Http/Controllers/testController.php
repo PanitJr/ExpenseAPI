@@ -44,7 +44,7 @@ class testController extends Controller
 
  	public function test(Request $request)
  	{
- 		// $profile = Profile::find(1);
+ 		// $profile = Profiles::find(1);
  		
  		// dd($profile->objects[0]->hasPermission()[0]->permission);
  		// $User = Users::find(1);

@@ -34,8 +34,8 @@ class CreateUserTest extends TestCase
                 ]
             ]);
     }
-    public function testSaveInstantUserWithToken()
-    {
+//    public function testSaveInstantUserWithToken()
+//    {
 //        Auth::loginUsingId(1);
 //        $this->json('post','api/Users/edit',[
 //            'Objectname'=>'Users',
@@ -51,6 +51,6 @@ class CreateUserTest extends TestCase
 //                'success' => True,
 //            ]);
 //        Auth::logout();
-    }
+//    }
 
 }

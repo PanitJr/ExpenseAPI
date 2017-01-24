@@ -13,7 +13,7 @@ class CCEdit
         $record = (int)$request->route('record');
         $objectClass =  Loader::getObject($objectName);
         $objectModel = $objectClass::find($record);
-        
+
         $error_code = "ACCESS_DENIED";
 
         if(!$objectModel && !empty($record))

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Object\Profile;
+namespace App\Object\Profiles;
 
 use App\CC\Loader;
 use App\Object\CC\CCEdit as Edit;
@@ -8,20 +8,12 @@ use App\CC\Error\ApiException;
 
 class CCEdit extends Edit
 {
-    public function process($request)
-    {
-        $objectLayout = ObjectModel::getModuleLayout();
-        $result = parent::process($request);
-        $result["modules"] = $objectLayout;
-            
-        return $result;
-    }
     public function convertLayout($objectModel)
     {
         $Object = $objectModel->getObject();
         $Blocks = $Object->getBlock()->orderby('sequence')->get();
         foreach ($Blocks as $Block) {
-            if($Block->blocklabel == 'Profile Permission'){
+            if($Block->blocklabel == 'Profiles Permission'){
                 $Fields = ObjectModel::hasPermission($Object->id);
                 $Block->fields = $Fields;
             }else {
@@ -30,5 +22,17 @@ class CCEdit extends Edit
             }
         }
         return $Blocks;
+    }
+
+    public function convertData($objectModel)
+    {
+        $objectModel->getPermission;
+//        $pernissionSet = [];
+//        foreach ($objectModel->getPermissionObject as $objPernission){
+//            $permission = Permission::find($objPernission->permission_id);
+//                array_push( $pernissionSet, $permission);
+//        }
+//        $objectModel['pernission']=$pernissionSet;
+        return $objectModel;
     }
 }

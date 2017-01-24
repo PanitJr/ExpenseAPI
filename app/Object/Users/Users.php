@@ -3,7 +3,7 @@
 namespace App\Object\Users;
 
 use App\Object\CC\Entity;
-use App\Object\Profile\Profile;
+use App\Object\Profiles\Profiles;
 use App\Object\Role\Role;
 
 use Illuminate\Auth\Authenticatable;
@@ -50,7 +50,7 @@ class Users extends Entity implements
 
     public function profiles()
     {
-        return $this->belongsToMany(Profile::class, 'user_profile', 'user_id', 'profile_id');
+        return $this->belongsToMany(Profiles::class, 'user_profile', 'profile_id', 'user_id');
     }
 
     public function role()
