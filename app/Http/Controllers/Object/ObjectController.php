@@ -14,7 +14,6 @@ class ObjectController extends BaseObjectController
 {
     public function object_home()
     {
-        Auth::loginUsingId(14, true);
         $objectView = [];
         foreach (Auth::user()->profiles as $profile){
             foreach ($profile->getPermission as $permission){
@@ -23,8 +22,8 @@ class ObjectController extends BaseObjectController
                 }
             }
         }
-        $Document = Auth::user()->profiles;
-        //$Document = ObjectBasic::whereIn('id',$objectView)->orderBy('objsequence')->get();
+        //$Document = Auth::user()->profiles;
+        $Document = ObjectBasic::whereIn('id',$objectView)->orderBy('objsequence')->get();
 
 //            $Document = [
 //                ["id" => 2, "name" => "Item", "tablename" => "cc_item", "fieldname" => "itemname", "label" => "Item", "icon" => "art_track", "objsequence" => 2],

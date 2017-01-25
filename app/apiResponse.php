@@ -16,8 +16,7 @@ class apiResponse extends \Response {
 		return response()->json([
 			"success" => false,
 			"error_code" => $code,
-			"error_massage" => $massage,
-            'message' => 'Record not found'
+			"error_massage" => $massage
 		],404);
 	}
     public static function notfound() {

@@ -50,7 +50,7 @@ class Users extends Entity implements
 
     public function profiles()
     {
-        return $this->belongsToMany(Profiles::class, 'user_profile', 'profile_id', 'user_id');
+        return $this->belongsToMany(Profiles::class, 'user_profile', 'user_id', 'profile_id');
     }
 
     public function role()
