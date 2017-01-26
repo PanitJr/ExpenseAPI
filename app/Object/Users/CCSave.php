@@ -14,7 +14,7 @@ class CCSave extends Save
     public function checkPermission($request)
     {
         $permission=false;
-        Auth::loginUsingId(9);
+        //Auth::loginUsingId(9);
         $record = (int)$request->route('record');
         if(empty($record)){
             foreach (Auth::user()->profiles as $profile){
@@ -24,7 +24,8 @@ class CCSave extends Save
                     }
                 }
             }
-        }else if (Auth::user()->id == $record && !empty($record) ){
+        }
+        else if (Auth::user()->id == $record && !empty($record) ){
             $permission = true;
         }
         return $permission;
@@ -37,13 +38,11 @@ class CCSave extends Save
 		
 		if(empty($record))
 		{
-
 	    	$objectModel = new $objectClass(); 
             $validateField = [
                 'user_name' => 'required|unique:users',
                 'email' => 'required|unique:users'
             ];
-            
 		}
 		else
 		{
