@@ -5,27 +5,30 @@ namespace App\Object\Users;
 use App\CC\Loader;
 use App\CC\Error\ApiException;
 use App\Object\CC\CCDetail as Detail;
+use Illuminate\Support\Facades\Auth;
 
 class CCDetail extends Detail
 {
     public function checkPermission($request)
     {
         $permission=false;
-        //Auth::loginUsingId(9);
+        Auth::loginUsingId(9);
+        $currentUser = Auth::user();
+        $currentUser->role;
         $record = (int)$request->route('record');
-        if(empty($record)){
-            foreach (Auth::user()->profiles as $profile){
-                foreach ($profile->getPermission as $permission){
-                    if($permission->name == 'view' && $permission->objectid == '5'){
-                        $permission = true;
-                        break;
-                    }
-
+        if ($currentUser->id == $record && !empty($record) ){
+            $permission = true;
+        }
+        else if($currentUser->role->name == 'Admin' ){
+            $permission = true;
+        }
+        else if($currentUser->role->name == 'Supervisor' ){
+            foreach ($currentUser->child as $child){
+                if ($child->id == $record) {
+                    $permission = true;
+                    break;
                 }
             }
-        }
-        else if (Auth::user()->id == $record && !empty($record) ){
-            $permission = true;
         }
         return $permission;
     }

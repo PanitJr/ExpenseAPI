@@ -30,7 +30,7 @@ class Users extends Entity implements
 
     public $columns_list = [
         'Username'=>'user_name',
-        'First Name' =>'lastname',
+        'First Name' =>'firstname',
         'Last Name' =>'lastname',
         'Role'=>'role_id'
     ];
@@ -56,6 +56,10 @@ class Users extends Entity implements
     public function role()
     {
         return $this->hasOne(Role::class,'id','role_id');
+    }
+    public function child()
+    {
+        return $this->hasMany(Users::class,'supervisor_id','id');
     }
 }
 
