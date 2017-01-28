@@ -19,7 +19,7 @@ class CCSave extends Save
         if(empty($record)){
             foreach (Auth::user()->profiles as $profile){
                 foreach ($profile->getPermission as $permission){
-                    if($permission->name == 'create' && $permission->objectid == '5'){
+                    if($permission->name == 'edit' && $permission->objectid == '5'){
                         $permission = true;
                     }
                 }

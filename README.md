@@ -29,3 +29,5 @@ laravel 5.2
 4.Run Laravel migrate data: `php artisan migrate`
 
 5.Run PHPUnit in command : `vendor/bin/phpunit` 
+
+5.Run : `php artisan serve` 

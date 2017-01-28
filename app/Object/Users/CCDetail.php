@@ -12,7 +12,7 @@ class CCDetail extends Detail
     public function checkPermission($request)
     {
         $permission=false;
-        Auth::loginUsingId(9);
+        //Auth::loginUsingId(9);
         $currentUser = Auth::user();
         $currentUser->role;
         $record = (int)$request->route('record');

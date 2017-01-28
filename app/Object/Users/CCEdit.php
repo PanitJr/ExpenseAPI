@@ -7,6 +7,7 @@ use App\Object\CC\CCEdit as Edit;
 use App\CC\Error\ApiException;
 use App\Object\Profiles\Profiles;
 use App\Object\Role\Role;
+use Illuminate\Support\Facades\Auth;
 
 class CCEdit extends Edit
 {
@@ -26,12 +27,14 @@ class CCEdit extends Edit
         if(empty($record)){
             foreach (Auth::user()->profiles as $profile){
                 foreach ($profile->getPermission as $permission){
-                    if($permission->name == 'edit' && $permission->objectid == '5'){
+                    if($permission->name == 'create' && $permission->objectid == '5'){
                         $permission = true;
                         break;
                     }
                 }
             }
+        }else if (Auth::user()->id == $record && !empty($record) ){
+            $permission = true;
         }
 
 
