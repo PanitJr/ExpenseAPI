@@ -17,7 +17,6 @@ class CCDelete
     	$record = $request->route('record');
 		$objectClass = 	Loader::getObject($objectName);
     	$objectModel = $objectClass::find($record);
-    	
     	return $objectModel->delete();
     }
 }

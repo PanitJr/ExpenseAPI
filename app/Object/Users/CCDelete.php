@@ -2,7 +2,6 @@
 
 namespace App\Object\Users;
 
-use App\CC\Loader;
 use Illuminate\Support\Facades\Auth;
 use App\Object\CC\CCDelete as delete;
 

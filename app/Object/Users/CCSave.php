@@ -4,6 +4,7 @@ namespace App\Object\Users;
 
 use Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Validator;
 use App\CC\Loader;
 use App\CC\Error\ApiException;
@@ -65,16 +66,24 @@ class CCSave extends Save
     public function saveValue($request,$objectModel)
     {
         $this->before_save($request,$objectModel);
-        
+        $record = (int)$request->route('record');
         if($request->has('password') && $request->has('confirm_password'))
         {
             $objectModel->password = Hash::make($request->get('password'));
             $objectModel->confirm_password = Hash::make($request->get('confirm_password'));
         }
-        
-        $objectModel->save(); 
-        
+
+        $objectModel->save();
+
         $updateModel = $objectModel->find($objectModel->id);
+        if(empty($record)){
+            DB::table('user_profile')->insert(['user_id'=>$updateModel->id,'profile_id'=>$request->get('profiles_id')]);
+        }
+        else{
+            DB::table('user_profile')
+                ->where('user_id', $record)
+                ->update(['profile_id' => $request->get('profiles_id')]);
+        }
         if($updateModel)
         {
             $this->after_save($request,$updateModel);
