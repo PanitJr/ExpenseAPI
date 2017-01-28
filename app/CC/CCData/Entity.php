@@ -76,7 +76,7 @@ class Entity extends Model
 		$label = "";
 		if($object)
 		{
-			$label = $this->{$object->object_name};
+			$label = $this->object_name;
 		}
 		return $label;
 	}

@@ -29,14 +29,14 @@ class Users extends Entity implements
     public $object_name = "Users";
 
     public $columns_list = [
-    	'Username'=>'user_name',
-    	'Email'=>'email',
-        'First Name'=>'firstname',
-        'Last Name'=>'lastname',
+        'Username'=>'user_name',
+        'First Name' =>'lastname',
+        'Last Name' =>'lastname',
+        'Role'=>'role_id'
     ];
 
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email'
     ];
 
     protected $hidden = [

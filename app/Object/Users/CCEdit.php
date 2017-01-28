@@ -5,6 +5,7 @@ namespace App\Object\Users;
 use App\CC\Loader;
 use App\Object\CC\CCEdit as Edit;
 use App\CC\Error\ApiException;
+use App\Object\Profiles\Profiles;
 use App\Object\Role\Role;
 
 class CCEdit extends Edit
@@ -19,6 +20,21 @@ class CCEdit extends Edit
 
         $error_code = "ACCESS_DENIED";
 
+        $permission=false;
+        //Auth::loginUsingId(9);
+        $record = (int)$request->route('record');
+        if(empty($record)){
+            foreach (Auth::user()->profiles as $profile){
+                foreach ($profile->getPermission as $permission){
+                    if($permission->name == 'edit' && $permission->objectid == '5'){
+                        $permission = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+
         if(!$objectModel && !empty($record))
         {
             throw new ApiException($error_code, 'Record not found ! ');
@@ -28,7 +44,7 @@ class CCEdit extends Edit
         {
             throw new ApiException($error_code, 'The record you are trying to view has been deleted.');
         }
-        return true;
+        return $permission;
     }
 
     public function convertLayout($objectModel)
@@ -41,11 +57,11 @@ class CCEdit extends Edit
             $FieldsModel = $Block->getField();
             if(!empty($objectModel->id))
             {
-                $FieldsModel
-                ->whereNotIn('fieldname',[
-                'password',
-                'confirm_password',
-                ]);
+//                $FieldsModel
+//                ->whereNotIn('fieldname',[
+//                'password',
+//                'confirm_password',
+//                ]);
             }
             $Fields = $FieldsModel
                 ->with('type')
@@ -55,6 +71,15 @@ class CCEdit extends Edit
                 if($Field->fieldname == "role_id")
                 {
                     $Field->Role = Role::all();
+                    $Field->Profile = Profiles::all();
+                }
+                if($Field->fieldname == "status")
+                {
+                    $Field->status = UserStatus::all();
+                }
+                if($Field->fieldname == "supervisor_id")
+                {
+                    $Field->supervisor = Users::all();
                 }
             }
             $Block->fields = $Fields;

@@ -8,6 +8,27 @@ use App\Object\CC\CCDetail as Detail;
 
 class CCDetail extends Detail
 {
+    public function checkPermission($request)
+    {
+        $permission=false;
+        //Auth::loginUsingId(9);
+        $record = (int)$request->route('record');
+        if(empty($record)){
+            foreach (Auth::user()->profiles as $profile){
+                foreach ($profile->getPermission as $permission){
+                    if($permission->name == 'view' && $permission->objectid == '5'){
+                        $permission = true;
+                        break;
+                    }
+
+                }
+            }
+        }
+        else if (Auth::user()->id == $record && !empty($record) ){
+            $permission = true;
+        }
+        return $permission;
+    }
     public function convertLayout($objectModel)
     {
         $layout = [];
