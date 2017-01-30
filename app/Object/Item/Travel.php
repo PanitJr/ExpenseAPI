@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Travel extends Model
 {
-    public $table = 'cc_items';
+    public $table = 'travels';
 
     public $timestamps = false;
 }

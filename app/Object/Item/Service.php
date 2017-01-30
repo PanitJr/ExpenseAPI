@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Service extends Model
 {
-    public $table = 'cc_items';
+    public $table = 'services';
 
     public $timestamps = false;
 }

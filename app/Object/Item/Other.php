@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: panit
- * Date: 1/28/2017
- * Time: 11:45 PM
+ * Date: 1/29/2017
+ * Time: 12:22 AM
  */
 
 namespace App\Object\Item;
@@ -11,9 +11,9 @@ namespace App\Object\Item;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Medical extends Model
+class Other extends Model
 {
-    public $table = 'medicals';
+    public $table = 'others';
 
     public $timestamps = false;
 }
