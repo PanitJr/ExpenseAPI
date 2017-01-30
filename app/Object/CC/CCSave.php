@@ -112,8 +112,7 @@ class CCSave
             $file = $request->file($name);
             $file->move(public_path($pathName),$filename);
             $response = asset($pathName.$filename);
-        } 
-        
+        }
         return $response;
         
     }
