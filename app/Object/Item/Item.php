@@ -16,7 +16,7 @@ class Item extends Entity
     public $object_name = "Item";
 
     public $columns_list = [
-    	'item_name'=>'itemname'
+    	'itemname'=>'itemname'
     ];
 //    public function getLabel()
 //    {

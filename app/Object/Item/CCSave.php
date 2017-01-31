@@ -4,6 +4,7 @@ namespace App\Object\Item;
 
 use App\CC\Loader;
 use App\Object\CC\CCSave as CSave;
+use Illuminate\Support\Facades\Auth;
 
 class CCSave extends CSave
 {
@@ -54,5 +55,18 @@ class CCSave extends CSave
             }
         }
         return $result;
+    }
+    public function after_save($request,$objectModel)
+    {
+        $Object = $this->getObject($objectModel);
+        foreach ($Object->getField as $field) {
+            $fieldValue = $this->coverdataAfterSave($request,$field,$objectModel);
+            if(!is_null($fieldValue))
+            {
+                $objectModel->{$field->fieldname} = $fieldValue;
+            }
+        }
+        $objectModel->itemname = Auth::user()->user_name."-Item-".$objectModel->id;
+        $objectModel->save();
     }
 }
