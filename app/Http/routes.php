@@ -1,6 +1,7 @@
 <?php
 
 use App\apiResponse;
+use App\Object\Item\TravelUtil\BTS;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Object\ObjectController;
 
@@ -34,8 +35,9 @@ Route::group(['prefix' => 'img'],function(){
 });
 
 Route::group(['prefix' => 'api' ,"middleware" =>['cors','GZip']], function () {
-    Route::match(['post','options'],'logingoogle', 'User\loginController@loginGoogle');
-	Route::match(['post','options'],'login', objectRun('Login','Users'));
+    //Route::match(['post','options'],'logingoogle', 'User\loginController@loginGoogle');
+    Route::match(['post','options'],'logingoogle', objectRun('Login','Users'));
+	//Route::match(['post','options'],'login', objectRun('Login','Users'));
 
 
 	Route::group(['middleware'=>"App\Http\Middleware\VerifyApiToken"],function(){		
@@ -58,12 +60,16 @@ Route::group(['prefix' => 'api' ,"middleware" =>['cors','GZip']], function () {
 
 		Route::match(['post','options'],'{objectName}/delete/{record}', objectRun('CCDelete'));
 
-		Route::group(['prefix' => 'Users'], function () {
-
-			Route::get('list',objectRun('CCList','Users'));	
-			Route::get('detail/{record}',objectRun('CCDetail','Users'));	
-			Route::match(['post','options'],'change_password', objectRun('ChangePassword','Users'));	
-		});
+		Route::group(['prefix' => 'TravelUtil'], function () {
+            Route::group(['prefix' => '1'], function () {
+                Route::get('/', function () {
+                    return BTS::getBts();
+                });
+                Route::get('/cost/{ori}/{desti}', function ($ori = 'ori', $desti = 'desti') {
+                    return BTS::getCost($ori, $desti);
+                });
+            });
+            });
 
 		
 
