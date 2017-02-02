@@ -2,7 +2,9 @@
 
 namespace App\Object\CC;
 
+use App\CC\Error\ApiException;
 use App\CC\Loader;
+use Exception;
 
 class CCSave
 {
@@ -55,7 +57,11 @@ class CCSave
     {
         $Object = $this->getObject($objectModel);
         foreach ($Object->getField as $field) {
+            try{
             $fieldValue = $request->get($field->fieldname);
+            }catch (Exception $e){
+                throw new ApiException('Error On Requested', 'Request doesnt match ! ');
+            }
             if(!is_null($fieldValue))
             {
                 $objectModel->{$field->fieldname} = $fieldValue;    

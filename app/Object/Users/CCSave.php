@@ -20,15 +20,15 @@ class CCSave extends Save
         if(!empty($record)){
             foreach (Auth::user()->profiles as $profile){
                 foreach ($profile->getPermission as $permission){
-                    if($permission->name == 'edit' && $permission->objectid == '5'){
+                    if($permission->name == 'create' && $permission->objectid == '5'){
                         $permission = true;
                     }
                 }
             }
         }
-        else if (Auth::user()->id == $record ){
+        if (Auth::user()->id == $record ){
             $permission = true;
-        }else if (Auth::user()->role->name == 'Admin'){
+        }if (Auth::user()->role->name == 'Admin'){
             $permission = true;
         }
         return $permission;
@@ -91,7 +91,7 @@ class CCSave extends Save
     }
     public function after_save($request,$objectModel)
     {
-
+        return $objectModel;
     }
 
 }

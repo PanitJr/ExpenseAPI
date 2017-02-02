@@ -22,10 +22,11 @@ class LoginTest extends TestCase
     public function setUp()
     {
         parent::setUp();
+        \Illuminate\Support\Facades\Auth::loginUsingId(9);
 
     }
     public function  testLogin(){
-        \Illuminate\Support\Facades\Auth::loginUsingId(9);
+
         $User = new \App\Object\Users\Users();
         $User->user_name = 'panit';
         $User->email = 'test@testtest.com';

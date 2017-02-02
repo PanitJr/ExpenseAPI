@@ -8,7 +8,7 @@ class CCDelete
 {
 	public function checkPermission($request)
     {
-    	return true;
+    	return false;
     }
     
     public function process($request)
