@@ -17,7 +17,7 @@ class CCSave extends Save
         $permission=false;
         //Auth::loginUsingId(9);
         $record = (int)$request->route('record');
-        if(empty($record)){
+        if(!empty($record)){
             foreach (Auth::user()->profiles as $profile){
                 foreach ($profile->getPermission as $permission){
                     if($permission->name == 'edit' && $permission->objectid == '5'){
@@ -26,7 +26,9 @@ class CCSave extends Save
                 }
             }
         }
-        else if (Auth::user()->id == $record && !empty($record) ){
+        else if (Auth::user()->id == $record ){
+            $permission = true;
+        }else if (Auth::user()->role->name == 'Admin'){
             $permission = true;
         }
         return $permission;
@@ -84,13 +86,12 @@ class CCSave extends Save
                 ->where('user_id', $record)
                 ->update(['profile_id' => $request->get('profiles_id')]);
         }
-        if($updateModel)
-        {
-            $this->after_save($request,$updateModel);
-            $objectModel = $updateModel; 
-        }
     
     	return $objectModel;
+    }
+    public function after_save($request,$objectModel)
+    {
+
     }
 
 }

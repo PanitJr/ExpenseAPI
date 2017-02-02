@@ -9,7 +9,20 @@ class CCDelete extends delete
 {
 	public function checkPermission($request)
     {
-    	return true;
+        $permission=false;
+        //Auth::loginUsingId(9);
+        $record = (int)$request->route('record');
+        if(!empty($record)){
+            foreach (Auth::user()->profiles as $profile){
+                foreach ($profile->getPermission as $permission){
+                    if($permission->name == 'delete' && $permission->objectid == '8'){
+                        $permission = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return $permission;
     }
 
     public function process($request)

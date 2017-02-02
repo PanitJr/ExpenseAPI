@@ -18,8 +18,8 @@ class MRT
     public static function getMrt()
     {
         try {
-            $bts = DB::table('mrt')->get();
-            return apiResponse::success($bts);
+            $mrt = DB::table('mrt')->get();
+            return apiResponse::success($mrt);
         }
         catch(ApiException $e){
             return apiResponse::error($e->error_code,$e->error);

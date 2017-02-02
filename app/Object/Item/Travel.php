@@ -9,6 +9,8 @@
 namespace App\Object\Item;
 
 
+use App\Object\Item\TravelUtil\TravelSubType;
+use App\Object\Item\TravelUtil\TravelType;
 use Illuminate\Database\Eloquent\Model;
 
 class Travel extends Model
@@ -16,4 +18,12 @@ class Travel extends Model
     public $table = 'travels';
 
     public $timestamps = false;
+
+    public function type(){
+        return $this->hasOne(TravelType::class,'id','travel_type');
+    }
+    public function subtype(){
+        return $this->hasOne(TravelSubType::class,'id','travel_sub_type');
+    }
+
 }

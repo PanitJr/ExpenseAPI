@@ -2,23 +2,91 @@
 
 namespace App\Object\Item;
 
+use App\CC\Error\ApiException;
+use App\CC\Loader;
 use App\Object\CC\CCEdit as Edit;
 use App\Object\Item\ServiceUtil\ServiceType;
 use App\Object\Opportunity\Opportunity;
 use App\Object\Item\ItemUtil\ItemCategory;
 use App\Object\Item\TravelUtil\TravelSubType;
 use App\Object\Item\TravelUtil\TravelType;
+use Illuminate\Support\Facades\Auth;
 
 class CCEdit extends Edit
 {
     public function checkPermission($request)
     {
-        return true;
+        $objectName = $request->route('objectName');
+        $record = (int)$request->route('record');
+        $objectClass =  Loader::getObject($objectName);
+        $objectModel = $objectClass::find($record);
+
+        $error_code = "ACCESS_DENIED";
+
+        $permission=false;
+        //Auth::loginUsingId(9);
+        $record = (int)$request->route('record');
+
+        foreach (Auth::user()->profiles as $profile){
+            foreach ($profile->getPermission as $permission){
+                if(empty($record)){
+                    if($permission->name == 'create' && $permission->objectid == '8'){
+                        $permission = true;
+                        break;
+                    }
+                }
+                else if(!empty($record)){
+                    if($permission->name == 'edit' && $permission->objectid == '8'){
+                        $permission = true;
+                        break;
+                    }
+                }
+            }
+        }
+        if(!$objectModel && !empty($record))
+        {
+            throw new ApiException($error_code, 'Record not found ! ');
+        }
+
+        if($objectModel && $objectModel->entity->deleted ==1)
+        {
+            throw new ApiException($error_code, 'The record you are trying to view has been deleted.');
+        }
+        return $permission;
     }
 
     public function process($request)
     {
-    	return parent::process($request);
+        $error_code = "ACCESS_DENIED";
+        $objectName = $request->route('objectName');
+        $record = (int)$request->route('record');
+
+        $objectClass = 	Loader::getObject($objectName);
+        if(empty($record))
+        {
+            $objectModel = new $objectClass();
+        }
+        else
+        {
+            $objectModel = $objectClass::find($record);
+            $objectModel->entity;
+            if($objectModel['entity']['ownerid'] != Auth::user()->id){
+                throw new ApiException($error_code, 'This is not your item');
+            }
+        }
+
+
+        $label = $objectModel->getLabel();
+        $layout = $this->convertLayout($objectModel);
+        $data = $this->convertData($objectModel);
+
+        return [
+            "objectname"=>$objectName,
+            "record"=>$record,
+            "label"=>$label,
+            "blocks"=>$layout,
+            "data"=>$data
+        ];
     }
     public function convertLayout($objectModel)
     {
@@ -63,11 +131,17 @@ class CCEdit extends Edit
         if(!empty($objectModel->id)) {
         $objectModel->Category;
         $objectModel->Opportunity;
-        if($objectModel->Category['name'] == "Travel"){$objectModel->Travel;}
-        else if($objectModel->Category['name'] == "Service"){$objectModel->Service;}
+        if($objectModel->Category['name'] == "Travel"){
+            $objectModel->Travel;
+            $objectModel->Travel->type;
+            $objectModel->Travel->subtype;
+        }
+        else if($objectModel->Category['name'] == "Service"){
+            $objectModel->Service;
+            $objectModel->Service->type;
+        }
         else if($objectModel->Category['name'] == "Other"){$objectModel->Other;}
         else if($objectModel->Category['name'] == "Medical"){$objectModel->Medical;}
-        $objectModel->Entity;
         $objectModel->date = date("d-m-Y",strtotime($objectModel->date));
         }
         return $objectModel;

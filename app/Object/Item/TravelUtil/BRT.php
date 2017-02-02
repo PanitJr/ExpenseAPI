@@ -18,8 +18,8 @@ class BRT
     public static function getBrt()
     {
         try {
-            $bts = DB::table('bts')->get();
-            return apiResponse::success($bts);
+            $Brt = DB::table('bts')->get();
+            return apiResponse::success($Brt);
         }
         catch(ApiException $e){
             return apiResponse::error($e->error_code,$e->error);

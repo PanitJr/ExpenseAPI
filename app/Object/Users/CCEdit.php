@@ -36,8 +36,6 @@ class CCEdit extends Edit
         }else if (Auth::user()->id == $record && !empty($record) ){
             $permission = true;
         }
-
-
         if(!$objectModel && !empty($record))
         {
             throw new ApiException($error_code, 'Record not found ! ');

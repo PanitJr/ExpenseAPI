@@ -14,11 +14,11 @@ use Illuminate\Support\Facades\DB;
 
 class AirportLink extends Model
 {
-    public static function getBts()
+    public static function getAirportLink()
     {
         try {
-            $bts = DB::table('airportlink')->get();
-            return apiResponse::success($bts);
+            $airportlink = DB::table('airportlink')->get();
+            return apiResponse::success($airportlink);
         }
         catch(ApiException $e){
             return apiResponse::error($e->error_code,$e->error);

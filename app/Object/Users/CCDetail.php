@@ -16,7 +16,7 @@ class CCDetail extends Detail
         $currentUser = Auth::user();
         $currentUser->role;
         $record = (int)$request->route('record');
-        if ($currentUser->id == $record && !empty($record) ){
+        if ($currentUser->id == $record){
             $permission = true;
         }
         else if($currentUser->role->name == 'Admin' ){
