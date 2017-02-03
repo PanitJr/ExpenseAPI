@@ -4,6 +4,7 @@ namespace App\Object\Item;
 
 use App\CC\Loader;
 use App\Object\CC\CCDelete as delete;
+use Illuminate\Support\Facades\Auth;
 
 class CCDelete extends delete
 {
