@@ -6,9 +6,8 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
-use Illuminate\Support\Facades\DB;
 
-class DeleteUserTest extends TestCase
+class UpdateUserTest extends TestCase
 {
     /**
      * A basic test example.
@@ -18,6 +17,7 @@ class DeleteUserTest extends TestCase
     use WithoutMiddleware;
     use DatabaseTransactions;
     protected $User;
+
     public function setUp()
     {
         parent::setUp();
@@ -29,32 +29,31 @@ class DeleteUserTest extends TestCase
         $testUser->supervisor_id = 9;
         $testUser->remember_token = 'Token';
         $testUser->save();
-        $testUser->entity();
+        $testUser->entity;
         $this->User = $testUser;
 //        $Lodader= $this->createMock(\App\CC\Loader::class);
 //
 //        // Configure the stub.
 //        $Lodader->method('getObject')
-//            ->willReturn($this->User);
     }
-
-    public function testCCDeleteUser()
+    public function testCCDetailUser()
     {
-        $ccDelete = new \App\Object\Users\CCDelete();
         $requestMock = Mockery::mock(Request::class)
             ->makePartial()
             ->shouldReceive('path')
             ->times()
-            ->andReturn('api/Users/edit/'.$this->User['id']);
+            ->andReturn('api/Users/detail/'.$this->User['id']);
 
         app()->instance('request', $requestMock->getMock());
 
         $request = request();
         $request->initialize();
         $request->setRouteResolver(function () use ($request) {
-            return (new Route('Post', 'api/{objectName}/delete/{record}', []))->bind($request);
+            return (new Route('GET', 'api/{objectName}/detail/{record}', []))->bind($request);
         });
-        $this->assertTrue($ccDelete->checkPermission($request));
-        //$ccDelete->process($request);
+        $ccDetail = new \App\Object\Users\CCDetail();
+        $this->assertTrue($ccDetail->checkPermission($request));
+        $ccDetail->convertLayout($this->User);
+
     }
 }

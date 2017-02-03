@@ -19,7 +19,7 @@ class CreateUserTest extends TestCase
      */
     use WithoutMiddleware;
     use DatabaseTransactions;
-
+    protected $User;
     public function setUp()
     {
         parent::setUp();
@@ -65,7 +65,8 @@ class CreateUserTest extends TestCase
         $requestMock = Mockery::mock(Request::class)
             ->makePartial()
             ->shouldReceive('path')
-            ->andReturn('Users/edit/'.$this->User['id']);
+            ->times()
+            ->andReturn('api/Users/edit/'.$this->User['id']);
 
         app()->instance('request', $requestMock->getMock());
 
@@ -78,7 +79,7 @@ class CreateUserTest extends TestCase
                 'remember_token'=>'Token'
             ]);
         $request->setRouteResolver(function () use ($request) {
-            return (new Route('GET', '{objectName}/edit/{record?}', []))->bind($request);
+            return (new Route('GET', 'api/{objectName}/edit/{record?}', []))->bind($request);
         });
         $block = [
             [
@@ -336,7 +337,8 @@ class CreateUserTest extends TestCase
         $requestMock = Mockery::mock(Request::class)
             ->makePartial()
             ->shouldReceive('path')
-            ->andReturn('Users/edit/'.$this->User['id']);
+            ->times()
+            ->andReturn('api/Users/edit/'.$this->User['id']);
 
         app()->instance('request', $requestMock->getMock());
 
@@ -349,7 +351,7 @@ class CreateUserTest extends TestCase
             'remember_token'=>'Token'
         ]);
         $request->setRouteResolver(function () use ($request) {
-            return (new Route('Post', '{objectName}/edit/{record?}', []))->bind($request);
+            return (new Route('Post', 'api/{objectName}/edit/{record?}', []))->bind($request);
         });
         $this->assertNotEquals($request,null);
         $this->assertEquals($ccSave->checkPermission($request),true);

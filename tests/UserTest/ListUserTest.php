@@ -1,8 +1,12 @@
 <?php
 
+use App\Object\Users\Users;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 class ListUserTest extends TestCase
 {
@@ -13,7 +17,7 @@ class ListUserTest extends TestCase
      */
     use WithoutMiddleware;
     use DatabaseTransactions;
-
+    protected $User;
     public function setUp()
     {
         parent::setUp();
@@ -25,7 +29,7 @@ class ListUserTest extends TestCase
         $testUser->supervisor_id = 9;
         $testUser->remember_token = 'Token';
         $testUser->save();
-        $testUser->entity();
+        $testUser->entity;
         $this->User = $testUser;
 //        $Lodader= $this->createMock(\App\CC\Loader::class);
 //
@@ -34,6 +38,44 @@ class ListUserTest extends TestCase
         }
     public function testCCListUser()
     {
-        $this->assertTrue(true);
+        $requestMock = Mockery::mock(Request::class)
+            ->makePartial()
+            ->shouldReceive('path')
+            ->times()
+            ->andReturn('api/Users/list/');
+
+        app()->instance('request', $requestMock->getMock());
+
+        $request = request();
+        $request->initialize();
+        $request->setRouteResolver(function () use ($request) {
+            return (new Route('GET', 'api/{objectName}/list/', []))->bind($request);
+        });
+        $cclist = new \App\Object\Users\CCList();
+        $this->assertTrue($cclist->checkPermission($request));
+        $cclist->recordControl($cclist->process($request));
+    }
+    public function testCCListUserResponse(){
+        $this->get('api/Users/list/')
+            ->seeJson([
+                'success' => True,
+
+            ])->seeJsonStructure([
+                'success',
+                'data'=> [
+                    'header',
+                    'listInfo'=>[
+                        'total',
+                        'per_page',
+                        'current_page',
+                        'last_page',
+                        'next_page_url',
+                        'prev_page_url',
+                        'from',
+                        'to',
+                        'data'=>[]
+                    ]
+                ]
+            ]);
     }
 }
