@@ -16,9 +16,8 @@ class CCEdit extends Edit
 {
     public function checkPermission($request)
     {
-        $objectName = $request->route('objectName');
         $record = (int)$request->route('record');
-        $objectClass =  Loader::getObject($objectName);
+        $objectClass =  Loader::getObject('Item');
         $objectModel = $objectClass::find($record);
 
         $error_code = "ACCESS_DENIED";
@@ -58,10 +57,9 @@ class CCEdit extends Edit
     public function process($request)
     {
         $error_code = "ACCESS_DENIED";
-        $objectName = $request->route('objectName');
         $record = (int)$request->route('record');
 
-        $objectClass = 	Loader::getObject($objectName);
+        $objectClass = 	Loader::getObject('Item');
         if(empty($record))
         {
             $objectModel = new $objectClass();
@@ -81,7 +79,7 @@ class CCEdit extends Edit
         $data = $this->convertData($objectModel);
 
         return [
-            "objectname"=>$objectName,
+            "objectname"=>'Item',
             "record"=>$record,
             "label"=>$label,
             "blocks"=>$layout,
