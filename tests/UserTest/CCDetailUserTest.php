@@ -53,21 +53,21 @@ class UpdateUserTest extends TestCase
         });
         $ccDetail = new \App\Object\Users\CCDetail();
         $this->assertTrue($ccDetail->checkPermission($request));
-        $resualt = $ccDetail->process($request);
-        $this->assertNotEmpty($resualt,null);
-        $this->assertArrayHasKey('objectname',$resualt);
-        $this->assertArrayHasKey('record',$resualt);
-        $this->assertArrayHasKey('label',$resualt);
-        $this->assertArrayHasKey('blocks',$resualt);
-        $this->assertArrayHasKey('id',$resualt['blocks'][0]);
-        $this->assertArrayHasKey('objectid',$resualt['blocks'][0]);
-        $this->assertArrayHasKey('blocklabel',$resualt['blocks'][0]);
-        $this->assertArrayHasKey('sequence',$resualt['blocks'][0]);
-        $this->assertArrayHasKey('fields',$resualt['blocks'][0]);
-        $this->assertArrayHasKey('data',$resualt);
-        $this->assertEquals($this->User->id,$resualt['data']['id']);
-        $this->assertEquals('test@testtest.com',$resualt['data']['email']);
-        $this->assertEquals('panit',$resualt['data']['user_name']);
+        $result = $ccDetail->process($request);
+        $this->assertNotEmpty($result);
+        $this->assertArrayHasKey('objectname',$result);
+        $this->assertArrayHasKey('record',$result);
+        $this->assertArrayHasKey('label',$result);
+        $this->assertArrayHasKey('blocks',$result);
+        $this->assertArrayHasKey('id',$result['blocks'][0]);
+        $this->assertArrayHasKey('objectid',$result['blocks'][0]);
+        $this->assertArrayHasKey('blocklabel',$result['blocks'][0]);
+        $this->assertArrayHasKey('sequence',$result['blocks'][0]);
+        $this->assertArrayHasKey('fields',$result['blocks'][0]);
+        $this->assertArrayHasKey('data',$result);
+        $this->assertEquals($this->User->id,$result['data']['id']);
+        $this->assertEquals('test@testtest.com',$result['data']['email']);
+        $this->assertEquals('panit',$result['data']['user_name']);
 
     }
 }

@@ -29,7 +29,7 @@ class CCListItemTest extends TestCase
         $testItem->cost =500;
         $testItem->description ='test_description';
         $testItem->attachment ='imageURL';
-        $testItem->status ='1';
+        $testItem->status =1;
         $testItem->date =\Carbon\Carbon::now();
         $testItem->save();
         $this->item = $testItem;
@@ -41,7 +41,7 @@ class CCListItemTest extends TestCase
         $testTravel->origination='test station';
         $testTravel->save();
     }
-    public function testItemDelete(){
+    public function testItemList(){
         $ccItem = new CCList();
         $requestMock = Mockery::mock(Request::class)
             ->makePartial()
