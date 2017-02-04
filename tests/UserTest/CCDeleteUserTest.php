@@ -45,7 +45,7 @@ class CCDeleteUserTest extends TestCase
             ->makePartial()
             ->shouldReceive('path')
             ->times()
-            ->andReturn('api/Users/edit/'.$this->User['id']);
+            ->andReturn('api/Users/delete/'.$this->User['id']);
 
         app()->instance('request', $requestMock->getMock());
 
@@ -56,5 +56,9 @@ class CCDeleteUserTest extends TestCase
         });
         $this->assertTrue($ccDelete->checkPermission($request));
         //$ccDelete->process($request);
+        $result = $ccDelete->process($request);
+        $this->assertEquals(true,$result);
+        $entity = DB::table('entitys')->where('id',$this->User->id)->first();
+        $this->assertEquals(1,$entity->deleted);
     }
 }

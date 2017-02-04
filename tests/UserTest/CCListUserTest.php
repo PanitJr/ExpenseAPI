@@ -35,7 +35,7 @@ class CCListUserTest extends TestCase
 //
 //        // Configure the stub.
 //        $Lodader->method('getObject')
-        }
+    }
     public function testCCListUser()
     {
         $requestMock = Mockery::mock(Request::class)
@@ -53,7 +53,31 @@ class CCListUserTest extends TestCase
         });
         $cclist = new \App\Object\Users\CCList();
         $this->assertTrue($cclist->checkPermission($request));
-        $cclist->recordControl($cclist->process($request));
+        $result = $cclist->process($request);
+        $this->assertNotEmpty($result);
+        $this->assertArrayHasKey('header',$result);
+        $this->assertArrayHasKey('listInfo',$result);
+        $this->assertArrayHasKey('Username',$result['header']);
+        foreach ($result['listInfo'] as $index => $auser){
+            if($auser['id'] == $this->User->id){
+                $this->assertArrayHasKey('id',$auser);
+                $this->assertArrayHasKey('user_name',$auser);
+                $this->assertEquals('panit',$auser['user_name']);
+                $this->assertEquals('',$auser['firstname']);
+                $this->assertEquals(4,$auser['role_id']);
+                $this->assertArrayHasKey('entity',$auser);
+                $this->assertArrayHasKey('id',$auser['entity']);
+                $this->assertArrayHasKey('ownerid',$auser['entity']);
+                $this->assertArrayHasKey('createid',$auser['entity']);
+                $this->assertArrayHasKey('modifiedby',$auser['entity']);
+                $this->assertArrayHasKey('created_at',$auser['entity']);
+                $this->assertArrayHasKey('updated_at',$auser['entity']);
+                $this->assertArrayHasKey('deleted',$auser['entity']);
+                $this->assertArrayHasKey('label',$auser['entity']);
+                $this->assertEquals(0,$auser['entity']['deleted']);
+                break;
+            }
+        }
     }
     public function testCCListUserResponse(){
         $this->get('api/Users/list/')

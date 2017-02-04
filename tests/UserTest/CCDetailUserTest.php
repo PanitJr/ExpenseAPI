@@ -53,7 +53,21 @@ class UpdateUserTest extends TestCase
         });
         $ccDetail = new \App\Object\Users\CCDetail();
         $this->assertTrue($ccDetail->checkPermission($request));
-        $ccDetail->convertLayout($this->User);
+        $resualt = $ccDetail->process($request);
+        $this->assertNotEmpty($resualt,null);
+        $this->assertArrayHasKey('objectname',$resualt);
+        $this->assertArrayHasKey('record',$resualt);
+        $this->assertArrayHasKey('label',$resualt);
+        $this->assertArrayHasKey('blocks',$resualt);
+        $this->assertArrayHasKey('id',$resualt['blocks'][0]);
+        $this->assertArrayHasKey('objectid',$resualt['blocks'][0]);
+        $this->assertArrayHasKey('blocklabel',$resualt['blocks'][0]);
+        $this->assertArrayHasKey('sequence',$resualt['blocks'][0]);
+        $this->assertArrayHasKey('fields',$resualt['blocks'][0]);
+        $this->assertArrayHasKey('data',$resualt);
+        $this->assertEquals($this->User->id,$resualt['data']['id']);
+        $this->assertEquals('test@testtest.com',$resualt['data']['email']);
+        $this->assertEquals('panit',$resualt['data']['user_name']);
 
     }
 }

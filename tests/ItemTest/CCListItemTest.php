@@ -63,7 +63,7 @@ class CCListItemTest extends TestCase
         $this->assertArrayHasKey('header',$result);
         $this->assertArrayHasKey('listInfo',$result);
         $this->assertArrayHasKey('itemname',$result['header']);
-//       $this->assertArrayHasKey('total',$result['listInfo']);
+//      $this->assertArrayHasKey('total',$result['listInfo']);
 //      $this->assertArrayHasKey('per_page',$result['listInfo']);
 //      $this->assertArrayHasKey('current_page',$result['listInfo']);
 //      $this->assertArrayHasKey('last_page',$result['listInfo']);
@@ -85,7 +85,8 @@ class CCListItemTest extends TestCase
         $this->assertArrayHasKey('deleted',$item['entity']);
         $this->assertArrayHasKey('label',$item['entity']);
         $this->assertEquals(0,$item['entity']['deleted']);
-        break;}
+        break;
+        }
 
     }
 }
