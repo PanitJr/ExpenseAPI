@@ -6,9 +6,9 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
-use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
-class DeleteUserTest extends TestCase
+class CCListUserTest extends TestCase
 {
     /**
      * A basic test example.
@@ -29,32 +29,53 @@ class DeleteUserTest extends TestCase
         $testUser->supervisor_id = 9;
         $testUser->remember_token = 'Token';
         $testUser->save();
-        $testUser->entity();
+        $testUser->entity;
         $this->User = $testUser;
 //        $Lodader= $this->createMock(\App\CC\Loader::class);
 //
 //        // Configure the stub.
 //        $Lodader->method('getObject')
-//            ->willReturn($this->User);
-    }
-
-    public function testCCDeleteUser()
+        }
+    public function testCCListUser()
     {
-        $ccDelete = new \App\Object\Users\CCDelete();
         $requestMock = Mockery::mock(Request::class)
             ->makePartial()
             ->shouldReceive('path')
             ->times()
-            ->andReturn('api/Users/edit/'.$this->User['id']);
+            ->andReturn('api/Users/list/');
 
         app()->instance('request', $requestMock->getMock());
 
         $request = request();
         $request->initialize();
         $request->setRouteResolver(function () use ($request) {
-            return (new Route('Post', 'api/{objectName}/delete/{record}', []))->bind($request);
+            return (new Route('GET', 'api/{objectName}/list/', []))->bind($request);
         });
-        $this->assertTrue($ccDelete->checkPermission($request));
-        //$ccDelete->process($request);
+        $cclist = new \App\Object\Users\CCList();
+        $this->assertTrue($cclist->checkPermission($request));
+        $cclist->recordControl($cclist->process($request));
+    }
+    public function testCCListUserResponse(){
+        $this->get('api/Users/list/')
+            ->seeJson([
+                'success' => True,
+
+            ])->seeJsonStructure([
+                'success',
+                'data'=> [
+                    'header',
+                    'listInfo'=>[
+                        'total',
+                        'per_page',
+                        'current_page',
+                        'last_page',
+                        'next_page_url',
+                        'prev_page_url',
+                        'from',
+                        'to',
+                        'data'=>[]
+                    ]
+                ]
+            ]);
     }
 }

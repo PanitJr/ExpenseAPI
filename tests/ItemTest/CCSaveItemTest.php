@@ -55,6 +55,9 @@ class CCSaveItemTest extends TestCase
 
         $request = request();
         $request->initialize();
+        $request->setRouteResolver(function () use ($request) {
+            return (new Route('Post', 'api/{objectName}/edit/{record?}', []))->bind($request);
+        });
         $request->request = new ParameterBag(['category' => 1,
             'itemname'=>'',
             'opportunity'=>1,
@@ -69,9 +72,6 @@ class CCSaveItemTest extends TestCase
                 'origination'=>'test station'
             ]
         ]);
-        $request->setRouteResolver(function () use ($request) {
-            return (new Route('Post', 'api/{objectName}/edit/{record?}', []))->bind($request);
-        });
         //var_dump($request->route('objectName'));
         $this->assertTrue($ccSave->checkPermission($request));
         $resualt = $ccSave->process($request);

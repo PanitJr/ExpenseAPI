@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
-class CreateUserTest extends TestCase
+class CCEditUserTest extends TestCase
 {
     /**
      * A basic test example.
@@ -72,15 +72,16 @@ class CreateUserTest extends TestCase
 
         $request = request();
         $request->initialize();
-        $request->request = new ParameterBag([   'user_name' => 'panit',
-                'email'=>'test@testtest.com',
-                'role_id'=>4,
-                'supervisor_id'=>9,
-                'remember_token'=>'Token'
-            ]);
+
         $request->setRouteResolver(function () use ($request) {
             return (new Route('GET', 'api/{objectName}/edit/{record?}', []))->bind($request);
         });
+        $request->request = new ParameterBag([   'user_name' => 'panit',
+            'email'=>'test@testtest.com',
+            'role_id'=>4,
+            'supervisor_id'=>9,
+            'remember_token'=>'Token'
+        ]);
         $block = [
             [
                 "id"=> 5,
@@ -331,31 +332,6 @@ class CreateUserTest extends TestCase
         $this->assertEquals(true,$ccEdit->checkPermission($request));
         $this->assertNotEquals($ccEdit->convertLayout($this->User),null);
 
-    }
-    public function testCCSaveUser(){
-        $ccSave = new \App\Object\Users\CCSave();
-        $requestMock = Mockery::mock(Request::class)
-            ->makePartial()
-            ->shouldReceive('path')
-            ->times()
-            ->andReturn('api/Users/edit/'.$this->User['id']);
-
-        app()->instance('request', $requestMock->getMock());
-
-        $request = request();
-        $request->initialize();
-        $request->request = new ParameterBag(['user_name' => 'panit',
-            'email'=>'test@testtest.com',
-            'role_id'=>4,
-            'supervisor_id'=>9,
-            'remember_token'=>'Token'
-        ]);
-        $request->setRouteResolver(function () use ($request) {
-            return (new Route('Post', 'api/{objectName}/edit/{record?}', []))->bind($request);
-        });
-        $this->assertNotEquals($request,null);
-        $this->assertEquals($ccSave->checkPermission($request),true);
-        $this->assertEquals($ccSave->saveValue($request,$this->User),$this->User);
     }
 
 }

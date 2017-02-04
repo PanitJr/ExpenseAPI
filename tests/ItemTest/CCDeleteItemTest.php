@@ -13,6 +13,7 @@ use App\Object\Item\CCDelete;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 
 class CCDeleteItemTest extends TestCase
@@ -60,6 +61,8 @@ class CCDeleteItemTest extends TestCase
         $this->assertTrue($ccDelete->checkPermission($request));
         $result = $ccDelete->process($request);
         $this->assertEquals(true,$result);
+        $entity = DB::table('entitys')->where('id',$this->item->id)->first();
+        $this->assertEquals(1,$entity->deleted);
 
     }
 }
