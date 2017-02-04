@@ -5,6 +5,7 @@ namespace App\Object\Item;
 use App\Object\CC\Entity;
 use App\Object\Expense\Expense;
 use App\Object\Item\ItemUtil\ItemCategory;
+use App\Object\Item\ItemUtil\ItemStatus;
 use App\Object\Opportunity\Opportunity;
 
 class Item extends Entity
@@ -37,10 +38,13 @@ class Item extends Entity
     public function expense(){
         return $this->hasOne(Expense::class,'id','expense_id');
     }
-    public function Opportunity(){
+    public function retriveOpportunity(){
         return $this->hasOne(Opportunity::class,'id','opportunity');
     }
-    public function Category(){
+    public function retriveStatus(){
+        return $this->hasOne(ItemStatus::class,'id','status');
+    }
+    public function retriveCategory(){
         return $this->hasOne(ItemCategory::class,'id','category');
     }
 }

@@ -19,10 +19,10 @@ class Travel extends Model
 
     public $timestamps = false;
 
-    public function type(){
+    public function travelType(){
         return $this->hasOne(TravelType::class,'id','travel_type');
     }
-    public function subtype(){
+    public function travelSubType(){
         return $this->hasOne(TravelSubType::class,'id','travel_sub_type');
     }
 

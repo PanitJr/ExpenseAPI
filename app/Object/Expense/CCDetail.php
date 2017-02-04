@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Object\Item;
+namespace App\Object\Expense;
 
-use App\Object\CC\CCDetail as Detail;
+use App\CC\Loader;
+use App\CC\Error\ApiException;
+use App\Object\CC\CCDetail as detailAction;
 use Illuminate\Support\Facades\Auth;
 
-class CCDetail extends Detail
+class CCDetail extends detailAction
 {
     public function checkPermission($request)
     {
@@ -30,28 +32,13 @@ class CCDetail extends Detail
         }
         return $permission;
     }
-
-    public function process($request)
-    {   
-        return parent::process($request);
-    }
     public function convertData($objectModel)
     {
         $objectModel->entity;
+        $objectModel->items;
         $objectModel->retriveStatus;
-        $objectModel->retriveOpportunity;
-        if($objectModel->category == 1){
-            $objectModel->travel;
-            $objectModel->travel->travelType;
-            $objectModel->travel->travelSubType;
-        }
-        if($objectModel->category == 2){
-            $objectModel->service;
-            $objectModel->service->serviceType;
-        }
-        if($objectModel->category == 3){$objectModel->medical;}
-        if($objectModel->category == 4){$objectModel->other;}
-        $objectModel->retriveCategory;
+        $objectModel->retriveApprove;
         return $objectModel;
     }
+
 }

@@ -22,7 +22,7 @@ class CCDetail
         {
             throw new ApiException($error_code, 'The record you are trying to view has been deleted.');
         }
-        return true;
+        return false;
     }
 
     public function process($request)

@@ -15,8 +15,9 @@ class CCDetail extends detail
     public function convertData($objectModel)
     {
         $objectModel->getPermission;
-        foreach ($objectModel->getPermission as $per)
+        foreach ($objectModel->getPermission as $per){
             $per->object;
+        }
         return $objectModel;
     }
 }

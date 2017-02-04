@@ -5,10 +5,10 @@ namespace App\Object\Users;
 use Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Validator;
 use App\CC\Loader;
 use App\CC\Error\ApiException;
 use App\Object\CC\CCSave as Save;
+use Illuminate\Support\Facades\Validator;
 
 class CCSave extends Save
 {
@@ -38,7 +38,7 @@ class CCSave extends Save
         $objectName = $request->route('objectName');
         $record = (int)$request->route('record');
         $objectClass =  Loader::getObject($objectName);
-		
+        $validateField=null;
 		if(empty($record))
 		{
 	    	$objectModel = new $objectClass(); 
@@ -55,11 +55,16 @@ class CCSave extends Save
                 'email' => 'required|unique:users,email,'.$record,
             ];
 		}
-
-        $validator = Validator::make($request->all(), $validateField);
+        //var_dump($request->all());
+        $validator = Validator::make([
+                'user_name'=>$request->get('user_name'),
+                'email'=>$request->get('email')]
+            , $validateField);
         if ($validator->fails()) {
             $error = $validator->errors()->all();
-            throw new ApiException('Varlidation Fail', implode('<br>',$error));            
+            var_dump($error);
+            throw new ApiException('Varlidation Fail', implode('<br>',$error));
+
         }
 
 		return $this->saveValue($request,$objectModel);

@@ -1,29 +1,27 @@
 <?php
 
-namespace App\Object\Item;
+namespace App\Object\Expense;
 
+use App\CC\Loader;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use App\Object\CC\CCList as CList;
-class CCList extends CList
+use App\Object\CC\CCList as listAction;
+class CCList extends listAction
 {
     public function checkPermission($request)
     {
         $permission=false;
         //Auth::loginUsingId(14);
-        if(empty($record)){
             foreach (Auth::user()->profiles as $profile){
                 foreach ($profile->getPermission as $permission){
-                    if($permission->name == 'view' && $permission->objectid == '8'){
+                    if($permission->name == 'view' && $permission->objectid == '9'){
                         $permission = true;
                         break;
                     }
                 }
             }
-        }
         return $permission;
     }
-    
     public function process($request)
     {
         $parentResult = parent::process($request);
@@ -34,26 +32,20 @@ class CCList extends CList
     {
         $currentUser = Auth::user();
         $currentUser->role;
-        foreach ($result['listInfo'] as $index => $item){
-            $item->entity;
+        foreach ($result['listInfo'] as $index => $expense){
+            $expense->entity;
             if($currentUser->role->name == 'Admin'){
-                $item->retriveStatus;
-                $item->retriveOpportunity;
-                $item->retriveCategory;
+                $expense->retriveStatus;
                 continue;
             }
-            else if ($currentUser->id == $item['entity']['ownerid'] ){
-                $item->retriveStatus;
-                $item->retriveOpportunity;
-                $item->retriveCategory;
+            else if ($currentUser->id == $expense['entity']['ownerid'] ){
+                $expense->retriveStatus;
                 continue;
             }
             else if($currentUser->role->name == 'Supervisor' ){
                 foreach ($currentUser->child as $child){
-                    if ($child->id == $item['entity']['ownerid']) {
-                        $item->retriveStatus;
-                        $item->retriveOpportunity;
-                        $item->retriveCategory;
+                    if ($child->id == $expense['entity']['ownerid']) {
+                        $expense->retriveStatus;
                         continue;
                     }
                     else{

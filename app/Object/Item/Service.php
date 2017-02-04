@@ -18,7 +18,7 @@ class Service extends Model
 
     public $timestamps = false;
 
-    public function type(){
+    public function serviceType(){
         return $this->hasOne(ServiceType::class,'id','type');
     }
 }

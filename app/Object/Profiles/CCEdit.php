@@ -27,12 +27,9 @@ class CCEdit extends Edit
     public function convertData($objectModel)
     {
         $objectModel->getPermission;
-//        $pernissionSet = [];
-//        foreach ($objectModel->getPermissionObject as $objPernission){
-//            $permission = Permission::find($objPernission->permission_id);
-//                array_push( $pernissionSet, $permission);
-//        }
-//        $objectModel['pernission']=$pernissionSet;
+        foreach ($objectModel->getPermission as $per){
+            $per->object;
+        }
         return $objectModel;
     }
 }

@@ -15,10 +15,6 @@ class ItemStatus extends Model
 {
     public $table = 'item_status';
 
-    public $timestamps = false;
     public $object_name = "ItemStatus";
 
-    public $columns_list = [
-        'name'=>'name'
-    ];
 }
