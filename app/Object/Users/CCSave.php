@@ -14,24 +14,22 @@ class CCSave extends Save
 {
     public function checkPermission($request)
     {
-        $permission=false;
+        $accesstion=false;
         //Auth::loginUsingId(9);
         $record = (int)$request->route('record');
         if(!empty($record)){
             foreach (Auth::user()->profiles as $profile){
                 foreach ($profile->getPermission as $permission){
                     if($permission->name == 'create' && $permission->objectid == '5'){
-                        $permission = true;
+                        $accesstion = true;
                     }
                 }
             }
         }
-        if (Auth::user()->id == $record ){
-            $permission = true;
-        }if (Auth::user()->role->name == 'Admin'){
-            $permission = true;
+        if (Auth::user()->role->name == 'Admin'){
+            $accesstion = true;
         }
-        return $permission;
+        return $accesstion;
     }
     public function process($request)
     {

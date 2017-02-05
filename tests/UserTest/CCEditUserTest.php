@@ -148,5 +148,24 @@ class CCEditUserTest extends TestCase
         $this->assertEquals($UserResult['email'],'test@testtest.com');
 
     }
+    public function testEmployeeEditUser(){
+        $ccEdit = new \App\Object\Users\CCEdit();
+        \Illuminate\Support\Facades\Auth::loginUsingId(658);
+        $requestMock = Mockery::mock(Request::class)
+            ->makePartial()
+            ->shouldReceive('path')
+            ->times()
+            ->andReturn('api/Users/edit/658');
+
+        app()->instance('request', $requestMock->getMock());
+
+        $request = request();
+        $request->initialize();
+
+        $request->setRouteResolver(function () use ($request) {
+            return (new Route('GET', 'api/{objectName}/edit/{record?}', []))->bind($request);
+        });
+        $this->assertEquals(false,$ccEdit->checkPermission($request));
+    }
 
 }

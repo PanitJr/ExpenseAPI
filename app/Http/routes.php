@@ -1,7 +1,10 @@
 <?php
 
 use App\apiResponse;
+use App\Object\Item\TravelUtil\AirportLink;
+use App\Object\Item\TravelUtil\BRT;
 use App\Object\Item\TravelUtil\BTS;
+use App\Object\Item\TravelUtil\MRT;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Object\ObjectController;
 
@@ -67,6 +70,30 @@ Route::group(['prefix' => 'api' ,"middleware" =>['cors','GZip']], function () {
                 });
                 Route::get('/cost/{ori}/{desti}', function ($ori = 'ori', $desti = 'desti') {
                     return BTS::getCost($ori, $desti);
+                });
+            });
+            Route::group(['prefix' => '2'], function () {
+                Route::get('/', function () {
+                    return MRT::getMrt();
+                });
+                Route::get('/cost/{ori}/{desti}', function ($ori = 'ori', $desti = 'desti') {
+                    return MRT::getCost($ori, $desti);
+                });
+            });
+            Route::group(['prefix' => '3'], function () {
+                Route::get('/', function () {
+                    return BRT::getBrt();
+                });
+                Route::get('/cost/{ori}/{desti}', function ($ori = 'ori', $desti = 'desti') {
+                    return BRT::getCost($ori, $desti);
+                });
+            });
+            Route::group(['prefix' => '4'], function () {
+                Route::get('/', function () {
+                    return AirportLink::getAirportLink();
+                });
+                Route::get('/cost/{ori}/{desti}', function ($ori = 'ori', $desti = 'desti') {
+                    return AirportLink::getCost($ori, $desti);
                 });
             });
             });

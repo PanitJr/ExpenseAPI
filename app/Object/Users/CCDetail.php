@@ -11,26 +11,26 @@ class CCDetail extends Detail
 {
     public function checkPermission($request)
     {
-        $permission=false;
+        $accesstion=false;
         //Auth::loginUsingId(9);
         $currentUser = Auth::user();
         $currentUser->role;
         $record = (int)$request->route('record');
         if ($currentUser->id == $record){
-            $permission = true;
+            $accesstion = true;
         }
         else if($currentUser->role->name == 'Admin' ){
-            $permission = true;
+            $accesstion = true;
         }
         else if($currentUser->role->name == 'Supervisor' ){
             foreach ($currentUser->child as $child){
                 if ($child->id == $record) {
-                    $permission = true;
+                    $accesstion = true;
                     break;
                 }
             }
         }
-        return $permission;
+        return $accesstion;
     }
     public function convertLayout($objectModel)
     {
@@ -45,6 +45,14 @@ class CCDetail extends Detail
             $Block->fields = $Fields;
         }
         return $Blocks;
+    }
+    public function convertData($objectModel)
+    {
+        $objectModel->role;
+        $objectModel->getStatus;
+        $objectModel->profiles;
+        $objectModel->supervisor;
+        return $objectModel;
     }
 
 }

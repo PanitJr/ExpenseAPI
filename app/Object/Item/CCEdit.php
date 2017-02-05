@@ -22,7 +22,7 @@ class CCEdit extends Edit
 
         $error_code = "ACCESS_DENIED";
 
-        $permission=false;
+        $accession=false;
         //Auth::loginUsingId(9);
         $record = (int)$request->route('record');
 
@@ -30,13 +30,13 @@ class CCEdit extends Edit
             foreach ($profile->getPermission as $permission){
                 if(empty($record)){
                     if($permission->name == 'create' && $permission->objectid == '8'){
-                        $permission = true;
+                        $accession = true;
                         break;
                     }
                 }
                 else if(!empty($record)){
                     if($permission->name == 'edit' && $permission->objectid == '8'){
-                        $permission = true;
+                        $accession = true;
                         break;
                     }
                 }
@@ -51,7 +51,7 @@ class CCEdit extends Edit
         {
             throw new ApiException($error_code, 'The record you are trying to view has been deleted.');
         }
-        return $permission;
+        return $accession;
     }
 
     public function process($request)

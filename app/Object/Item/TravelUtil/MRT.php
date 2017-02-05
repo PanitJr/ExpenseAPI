@@ -11,10 +11,12 @@ namespace App\Object\Item\TravelUtil;
 
 use App\apiResponse;
 use App\CC\Error\ApiException;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class MRT
+class MRT extends Model
 {
+    public $table = 'mrt';
     public static function getMrt()
     {
         try {

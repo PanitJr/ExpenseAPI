@@ -3,12 +3,23 @@
 namespace App\Object\CC;
 
 use App\CC\Loader;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 class CCList 
 {
     public function checkPermission($request)
     {
-        return false;
+        $permission=false;
+        //Auth::loginUsingId(14);
+        foreach (Auth::user()->profiles as $profile){
+            foreach ($profile->getPermission as $permission){
+                if($permission->name == 'view' && $permission->objectid == '8'){
+                    $permission = true;
+                    break;
+                }
+            }
+        }
+        return $permission;
     }
     
     public function process($request)

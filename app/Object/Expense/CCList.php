@@ -10,17 +10,17 @@ class CCList extends listAction
 {
     public function checkPermission($request)
     {
-        $permission=false;
+        $accession=false;
         //Auth::loginUsingId(14);
             foreach (Auth::user()->profiles as $profile){
                 foreach ($profile->getPermission as $permission){
                     if($permission->name == 'view' && $permission->objectid == '9'){
-                        $permission = true;
+                        $accession = true;
                         break;
                     }
                 }
             }
-        return $permission;
+        return $accession;
     }
     public function process($request)
     {

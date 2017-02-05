@@ -57,9 +57,18 @@ class Users extends Entity implements
     {
         return $this->hasOne(Role::class,'id','role_id');
     }
+    public function getStatus()
+    {
+        return $this->hasOne(UserStatus::class,'id','status');
+    }
     public function child()
     {
         return $this->hasMany(Users::class,'supervisor_id','id');
+
+    }
+    public function supervisor()
+    {
+        return $this->hasOne(Users::class,'id','supervisor_id');
     }
 }
 

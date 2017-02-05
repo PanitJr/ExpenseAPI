@@ -5,7 +5,7 @@ namespace App\Object\Expense;
 use App\Object\CC\Entity;
 use App\Object\Item\Item;
 use Object\Expense\expenseUtil\Approve;
-use Object\Expense\expnseUtil\ExpenseStatus;
+use Object\Expense\expenseUtil\ExpenseStatus;
 
 class Expense extends Entity
 {

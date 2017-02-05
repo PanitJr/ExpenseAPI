@@ -62,7 +62,7 @@ class CCListItemTest extends TestCase
         $this->assertNotEmpty($result);
         $this->assertArrayHasKey('header',$result);
         $this->assertArrayHasKey('listInfo',$result);
-        $this->assertArrayHasKey('itemname',$result['header']);
+        $this->assertArrayHasKey('Item',$result['header']);
 //      $this->assertArrayHasKey('total',$result['listInfo']);
 //      $this->assertArrayHasKey('per_page',$result['listInfo']);
 //      $this->assertArrayHasKey('current_page',$result['listInfo']);

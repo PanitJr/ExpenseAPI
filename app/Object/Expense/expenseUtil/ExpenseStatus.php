@@ -6,7 +6,7 @@
  * Time: 9:35 PM
  */
 
-namespace Object\Expense\expnseUtil;
+namespace Object\Expense\expenseUtil;
 
 
 use Illuminate\Database\Eloquent\Model;
@@ -15,7 +15,7 @@ class ExpenseStatus extends Model
 {
     public $table = 'expense_status';
 
-    public $timestamps = true;
+    public $timestamps = false;
 
     public $object_name = "ExpenseStatus";
 

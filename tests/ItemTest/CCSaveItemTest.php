@@ -66,8 +66,8 @@ class CCSaveItemTest extends TestCase
             'status'=>1,
             'date'=>\Carbon\Carbon::now(),
             'travel'=>[
-                'travel_type'=>1,
-                'travel_sub_type'=>1,
+                'traveltype'=>1,
+                'travelsubtype'=>1,
                 'destination'=>'siam',
                 'origination'=>'test station'
             ]

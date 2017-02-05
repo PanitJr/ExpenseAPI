@@ -20,27 +20,24 @@ class CCEdit extends Edit
 
         $error_code = "ACCESS_DENIED";
 
-        $permission=false;
+        $accesstion=false;
         //Auth::loginUsingId(9);
         $record = (int)$request->route('record');
         foreach (Auth::user()->profiles as $profile){
             foreach ($profile->getPermission as $permission){
                 if(empty($record)){
                     if($permission->name == 'create' && $permission->objectid == '5'){
-                        $permission = true;
+                        $accesstion = true;
                         break;
                     }
                 }
-                else if(!empty($record)){
+                if(!empty($record)){
                     if($permission->name == 'edit' && $permission->objectid == '5'){
-                        $permission = true;
+                        $accesstion = true;
                         break;
                     }
                 }
             }
-        }
-        if (Auth::user()->id == $record && !empty($record) ){
-            $permission = true;
         }
         if(!$objectModel && !empty($record))
         {
@@ -51,7 +48,7 @@ class CCEdit extends Edit
         {
             throw new ApiException($error_code, 'The record you are trying to view has been deleted.');
         }
-        return $permission;
+        return $accesstion;
     }
 
     public function convertLayout($objectModel)
@@ -85,7 +82,7 @@ class CCEdit extends Edit
                 }
                 if($Field->fieldname == "supervisor_id")
                 {
-                    $Field->supervisor = Users::all();
+                    $Field->supervisor = Users::where('role_id','<>',19)->get();
                 }
             }
             $Block->fields = $Fields;

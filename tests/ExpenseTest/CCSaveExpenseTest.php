@@ -136,5 +136,6 @@ class CCSaveExpenseTest extends TestCase
                 $this->assertEquals(500,$expense->total_price);
             }
         }
+
     }
 }

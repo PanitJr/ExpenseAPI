@@ -10,10 +10,12 @@ namespace App\Object\Item\TravelUtil;
 
 use App\apiResponse;
 use App\CC\Error\ApiException;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class BTS
+class BTS extends model
 {
+    public $table = 'bts';
     public static function getBts()
     {
         try {

@@ -11,10 +11,12 @@ namespace App\Object\Item\TravelUtil;
 
 use App\apiResponse;
 use App\CC\Error\ApiException;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class BRT
+class BRT extends Model
 {
+    public $table = 'bts';
     public static function getBrt()
     {
         try {

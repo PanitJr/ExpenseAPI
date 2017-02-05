@@ -9,19 +9,17 @@ class CCList extends CList
 {
     public function checkPermission($request)
     {
-        $permission=false;
+        $accession=false;
         //Auth::loginUsingId(14);
-        if(empty($record)){
             foreach (Auth::user()->profiles as $profile){
                 foreach ($profile->getPermission as $permission){
                     if($permission->name == 'view' && $permission->objectid == '8'){
-                        $permission = true;
+                        $accession = true;
                         break;
                     }
                 }
-            }
         }
-        return $permission;
+        return $accession;
     }
     
     public function process($request)
@@ -40,12 +38,14 @@ class CCList extends CList
                 $item->retriveStatus;
                 $item->retriveOpportunity;
                 $item->retriveCategory;
+                $item->date = date("d-m-Y",strtotime($item->date));
                 continue;
             }
             else if ($currentUser->id == $item['entity']['ownerid'] ){
                 $item->retriveStatus;
                 $item->retriveOpportunity;
                 $item->retriveCategory;
+                $item->date = date("d-m-Y",strtotime($item->date));
                 continue;
             }
             else if($currentUser->role->name == 'Supervisor' ){
@@ -54,6 +54,7 @@ class CCList extends CList
                         $item->retriveStatus;
                         $item->retriveOpportunity;
                         $item->retriveCategory;
+                        $item->date = date("d-m-Y",strtotime($item->date));
                         continue;
                     }
                     else{

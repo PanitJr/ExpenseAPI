@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 
 class AirportLink extends Model
 {
+    public $table = 'airportlink';
     public static function getAirportLink()
     {
         try {

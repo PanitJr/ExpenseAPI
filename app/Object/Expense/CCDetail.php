@@ -11,26 +11,26 @@ class CCDetail extends detailAction
 {
     public function checkPermission($request)
     {
-        $permission=false;
+        $accession=false;
         //Auth::loginUsingId(9);
         $currentUser = Auth::user();
         $currentUser->role;
         $record = (int)$request->route('record');
         if ($currentUser->id == $record){
-            $permission = true;
+            $accession = true;
         }
         else if($currentUser->role->name == 'Admin' ){
-            $permission = true;
+            $accession = true;
         }
         else if($currentUser->role->name == 'Supervisor' ){
             foreach ($currentUser->child as $child){
                 if ($child->id == $record) {
-                    $permission = true;
+                    $accession = true;
                     break;
                 }
             }
         }
-        return $permission;
+        return $accession;
     }
     public function convertData($objectModel)
     {

@@ -36,7 +36,11 @@ class Login
                 $users->lastname=$userLname;
                 $users->save();
             }
+            $objectsPermission = [];
+            foreach (Auth::user()->profiles as $profile){array_push($objectsPermission,$profile->getPermission);}
+
             $response['token'] = Auth::user()->getRememberToken();
+            $response['permissions'] = $objectsPermission;
 //            }
         }else {
             $response = apiResponse::error(400,"Email is not matched, please change the login email");

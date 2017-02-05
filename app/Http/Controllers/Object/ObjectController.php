@@ -23,6 +23,7 @@ class ObjectController extends BaseObjectController
             }
         }
         //$Document = Auth::user()->profiles;
+
         $Document = ObjectBasic::whereIn('id',$objectView)->orderBy('objsequence')->get();
 
 //            $Document = [
