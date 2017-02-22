@@ -5,8 +5,8 @@ namespace App\Object\Expense;
 use App\CC\Loader;
 use App\CC\Error\ApiException;
 use App\Object\CC\CCEdit as editAction;
+use App\Object\Expense\expenseUtil\Approve;
 use Illuminate\Support\Facades\Auth;
-use Object\Expense\expenseUtil\Approve;
 
 class CCEdit extends editAction
 {
@@ -73,7 +73,7 @@ class CCEdit extends editAction
         $approve = new Approve();
         $approve->approve_action = $request->get('approve_action');
         $approve->user_id = Auth::user()->id;
-        $approve->expense_id = $expense->id;
+        $approve->expense = $expense->id;
         $approve->save();
         $expense->delete();
         return $expense;
@@ -93,6 +93,11 @@ class CCEdit extends editAction
             $expense->supervisor_approve = true;
         }
         $expense->save();
+        $approve = new Approve();
+        $approve->approve_action = $request->get('approve_action');
+        $approve->user_id = Auth::user()->id;
+        $approve->expense = $expense->id;
+        $approve->save();
         return $expense;
     }
 

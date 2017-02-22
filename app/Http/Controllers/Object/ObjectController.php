@@ -33,6 +33,11 @@ class ObjectController extends BaseObjectController
 //                ["id" => 5, "name" => "AllLeave", "tablename" => "cc_leave", "fieldname" => "leavename", "label" => "All Leave", "icon" => "verified_user", "objsequence" => 5]
 //            ];
             $Manage = [];
+        if(Auth::user()->role->name == 'Admin' ){
+            $Manage =[
+                ["id" => 9, "name" => "Expense", "tablename" => "cc_expense", "fieldname" => "expensename", "label" => "All Expense", "icon" => "verified_user", "objsequence" => 0]
+            ];
+        }
 
         return apiResponse::success([
                 'list'=>$Document,

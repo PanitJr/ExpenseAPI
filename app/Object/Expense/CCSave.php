@@ -43,6 +43,7 @@ class CCSave extends saveAction
                 $expense->opportunity=$ativeOpp->id;
                 $expense->status=1;
                 $expense->user_id=$currentUser->id;
+                $expense->approver = $currentUser->supervisor_id;
                 $expense->save();
                 $savedExpense = Expense::find($expense->id);
                 $totalPrice = 0;

@@ -36,16 +36,19 @@ class CCList extends listAction
             $expense->entity;
             if($currentUser->role->name == 'Admin'){
                 $expense->retriveStatus;
+                $expense->retriveOpportunity;
                 continue;
             }
             else if ($currentUser->id == $expense['entity']['ownerid'] ){
                 $expense->retriveStatus;
+                $expense->retriveOpportunity;
                 continue;
             }
             else if($currentUser->role->name == 'Supervisor' ){
                 foreach ($currentUser->child as $child){
                     if ($child->id == $expense['entity']['ownerid']) {
                         $expense->retriveStatus;
+                        $expense->retriveOpportunity;
                         continue;
                     }
                     else{

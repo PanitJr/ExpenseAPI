@@ -60,4 +60,5 @@ class CCDetail
     {
         return $objectModel;
     }
+
 }

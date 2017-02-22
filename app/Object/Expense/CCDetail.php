@@ -36,8 +36,19 @@ class CCDetail extends detailAction
     {
         $objectModel->entity;
         $objectModel->items;
+        foreach ($objectModel->items as $item){
+            $item->retriveCategory;
+        }
         $objectModel->retriveStatus;
+        $objectModel->retriveOpportunity;
         $objectModel->retriveApprove;
+        $objectModel->User;
+        $objectModel->retriveApprover;
+        if($objectModel->approver == Auth::user()->id){
+            $objectModel->approveAvilable = 0;
+        }else{
+            $objectModel->approveAvilable = 1;
+        }
         return $objectModel;
     }
 

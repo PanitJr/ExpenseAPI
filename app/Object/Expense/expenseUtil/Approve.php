@@ -6,7 +6,7 @@
  * Time: 5:21 PM
  */
 
-namespace Object\Expense\expenseUtil;
+namespace App\Object\Expense\expenseUtil;
 
 
 use Illuminate\Database\Eloquent\Model;
@@ -18,4 +18,8 @@ class Approve extends Model
     public $timestamps = true;
 
     public $object_name = "Approve";
+
+    public function status(){
+        return $this->hasOne(ApproveAction::class,'id','action');
+    }
 }

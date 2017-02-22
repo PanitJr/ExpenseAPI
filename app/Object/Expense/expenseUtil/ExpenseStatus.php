@@ -6,7 +6,7 @@
  * Time: 9:35 PM
  */
 
-namespace Object\Expense\expenseUtil;
+namespace App\Object\Expense\expenseUtil;
 
 
 use Illuminate\Database\Eloquent\Model;
