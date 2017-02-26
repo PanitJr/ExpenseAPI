@@ -43,6 +43,8 @@ class CCSave extends CSave
                 }
                 $travel->destination = $travelreq['destination'];
                 $travel->origination = $travelreq['origination'];
+                $result->description = '['.$travelreq['origination'].' to '.$travelreq['origination'].'] '.$result->description;
+                $result->save();
                 $travel->save();
             }else if((int)$request->get('category')==2){
                 $service = new Service();

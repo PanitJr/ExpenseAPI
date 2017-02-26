@@ -63,6 +63,14 @@ Route::group(['prefix' => 'api' ,"middleware" =>['cors','GZip']], function () {
 
 		Route::match(['post','options'],'{objectName}/delete/{record}', objectRun('CCDelete'));
 
+		Route::match(['post','options'],'Expense/reject/{record}', objectRun('RejectExpense','Expense'));
+        Route::match(['post','options'],'Expense/Approve/{record}', objectRun('ApproveExpense','Expense'));
+        Route::match(['post','options'],'Expense/paid/{record}', objectRun('PaidExpense','Expense'));
+
+        Route::get('Expense/AllExpense', objectRun('AllExpense','Expense'));
+
+        Route::get('Item/reject/{record}', objectRun('RejectItem','Item'));
+
 		Route::group(['prefix' => 'TravelUtil'], function () {
             Route::group(['prefix' => '1'], function () {
                 Route::get('/', function () {

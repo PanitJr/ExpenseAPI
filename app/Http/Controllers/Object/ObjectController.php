@@ -35,7 +35,7 @@ class ObjectController extends BaseObjectController
             $Manage = [];
         if(Auth::user()->role->name == 'Admin' ){
             $Manage =[
-                ["id" => 9, "name" => "Expense", "tablename" => "cc_expense", "fieldname" => "expensename", "label" => "All Expense", "icon" => "verified_user", "objsequence" => 0]
+                ["id" => 9, "name" => "AllExpense", "tablename" => "cc_expense", "fieldname" => "expensename", "label" => "All Expense", "icon" => "verified_user", "objsequence" => 0]
             ];
         }
 

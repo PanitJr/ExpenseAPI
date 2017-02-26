@@ -9,17 +9,21 @@
 namespace App\Object\Expense\expenseUtil;
 
 
+use App\Object\Users\Users;
 use Illuminate\Database\Eloquent\Model;
 
 class Approve extends Model
 {
     public $table = 'approves';
 
-    public $timestamps = true;
+    public $timestamps = false;
 
     public $object_name = "Approve";
 
     public function status(){
         return $this->hasOne(ApproveAction::class,'id','action');
+    }
+    public function retrieveUser(){
+        return $this->hasOne(Users::class,'id','user');
     }
 }

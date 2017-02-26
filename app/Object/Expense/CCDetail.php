@@ -42,6 +42,10 @@ class CCDetail extends detailAction
         $objectModel->retriveStatus;
         $objectModel->retriveOpportunity;
         $objectModel->retriveApprove;
+        foreach ($objectModel->retriveApprove as $approve){
+            $approve->status;
+            $approve->retrieveUser;
+        }
         $objectModel->User;
         $objectModel->retriveApprover;
         if($objectModel->approver == Auth::user()->id){
