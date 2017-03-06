@@ -30,13 +30,13 @@ class PaidExpense
             $objectModel = $objectClass::find($request->route('record'));
             if($objectModel->status == 6){
                 $objectModel->status = 3;
-                $objectModel->items;
-                foreach ($objectModel->items as $item){
-                    $objectClassItem =  Loader::getObject('Item');
-                    $objectItem = $objectClassItem::find($item->id);
-                    $objectItem->status = 4;
-                    $objectItem->save();
-                }
+//                $objectModel->items;
+//                foreach ($objectModel->items as $item){
+//                    $objectClassItem =  Loader::getObject('Item');
+//                    $objectItem = $objectClassItem::find($item->id);
+//                    $objectItem->status = 4;
+//                    $objectItem->save();
+//                }
                 $approve = new Approve();
                 $approve->expense = $objectModel->id;
                 $approve->action = 4;

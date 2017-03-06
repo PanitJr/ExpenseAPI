@@ -10,7 +10,7 @@ class CCList extends CList
     public function checkPermission($request)
     {
         $accession=false;
-        //Auth::loginUsingId(14);
+        //Auth::loginUsingId(658);
             foreach (Auth::user()->profiles as $profile){
                 foreach ($profile->getPermission as $permission){
                     if($permission->name == 'view' && $permission->objectid == '8'){
@@ -34,14 +34,14 @@ class CCList extends CList
         $currentUser->role;
         foreach ($result['listInfo'] as $index => $item){
             $item->entity;
-            if($currentUser->role->name == 'Admin'){
-                $item->retriveStatus;
-                $item->retriveOpportunity;
-                $item->retriveCategory;
-                $item->date = date("d-m-Y",strtotime($item->date));
-                continue;
-            }
-            else if ($currentUser->id == $item['entity']['ownerid'] ){
+//            if($currentUser->role->name == 'Admin'){
+//                $item->retriveStatus;
+//                $item->retriveOpportunity;
+//                $item->retriveCategory;
+//                $item->date = date("d-m-Y",strtotime($item->date));
+//                continue;
+//            }
+            if ($currentUser->id == $item['entity']['ownerid'] ){
                 $item->retriveStatus;
                 $item->retriveOpportunity;
                 $item->retriveCategory;
@@ -84,6 +84,9 @@ class CCList extends CList
             $by = Str::substr($order,0,1)==="-"?"DESC":"ASC";
             $order = $by==="DESC"?Str::substr($order,1):$order;
             $listModel  = $listModel->orderBy($order,$by);
+        }
+        else{
+            $listModel  = $listModel->orderBy('id',"DESC");
         }
 
         return $listModel;

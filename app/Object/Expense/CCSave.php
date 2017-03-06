@@ -34,6 +34,7 @@ class CCSave extends saveAction
             $itemNotSubmit = DB::table('cc_items')->join('entitys', 'cc_items.id', '=', 'entitys.id')
                 ->where('ownerid', '=', $currentUser->id)
                 ->where('status', '<>', 2)
+//                ->where('status', '<>', 3)
                 ->where('opportunity', '=', $ativeOpp->id)
                 ->select('cc_items.id')
                 ->get();

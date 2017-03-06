@@ -49,9 +49,9 @@ class CCDetail extends detailAction
         $objectModel->User;
         $objectModel->retriveApprover;
         if($objectModel->approver == Auth::user()->id){
-            $objectModel->approveAvilable = 0;
+            $objectModel->approveAvilable = false;
         }else{
-            $objectModel->approveAvilable = 1;
+            $objectModel->approveAvilable = true;
         }
         return $objectModel;
     }

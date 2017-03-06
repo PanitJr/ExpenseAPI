@@ -4,6 +4,10 @@ namespace App\Object\Item;
 
 use App\CC\Loader;
 use App\Object\CC\CCSave as CSave;
+use App\Object\Item\TravelUtil\AirportLink;
+use App\Object\Item\TravelUtil\BRT;
+use App\Object\Item\TravelUtil\BTS;
+use App\Object\Item\TravelUtil\MRT;
 use Illuminate\Support\Facades\Auth;
 
 class CCSave extends CSave
@@ -43,8 +47,36 @@ class CCSave extends CSave
                 }
                 $travel->destination = $travelreq['destination'];
                 $travel->origination = $travelreq['origination'];
-                $result->description = '['.$travelreq['origination'].' to '.$travelreq['origination'].'] '.$result->description;
-                $result->save();
+                if(!empty($travelreq['travelsubtype'])) {
+                    if ($travelreq['travelsubtype'] == 1) {
+                        $origination = BTS::find($travelreq['origination']);
+                        $destination = BTS::find($travelreq['destination']);
+                        $result->description = '['.$origination->name.' to '.$destination->name.'] '.$result->description;
+                        $result->save();
+                    }
+                    else if ($travelreq['travelsubtype'] == 2) {
+                        $origination = MRT::find($travelreq['origination']);
+                        $destination = MRT::find($travelreq['destination']);
+                        $result->description = '['.$origination->name.' to '.$destination->name.'] '.$result->description;
+                        $result->save();
+                    }
+                    else if ($travelreq['travelsubtype'] == 3) {
+                        $origination = BRT::find($travelreq['origination']);
+                        $destination = BRT::find($travelreq['destination']);
+                        $result->description = '['.$origination->name.' to '.$destination->name.'] '.$result->description;
+                        $result->save();
+                    }
+                    else if ($travelreq['travelsubtype'] == 4) {
+                        $origination = AirportLink::find($travelreq['origination']);
+                        $destination = AirportLink::find($travelreq['destination']);
+                        $result->description = '['.$origination->name.' to '.$destination->name.'] '.$result->description;
+                        $result->save();
+                    }else {
+                        $result->description = '['.$travelreq['origination'].' to '.$travelreq['destination'].'] '.$result->description;
+                        $result->save();
+                    }
+                }
+
                 $travel->save();
             }else if((int)$request->get('category')==2){
                 $service = new Service();
