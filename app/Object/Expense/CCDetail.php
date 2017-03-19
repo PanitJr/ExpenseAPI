@@ -16,7 +16,10 @@ class CCDetail extends detailAction
         $currentUser = Auth::user();
         $currentUser->role;
         $record = (int)$request->route('record');
-        if ($currentUser->id == $record){
+        $objectClass =  Loader::getObject('Expense');
+        $objectModel = $objectClass::find($record);
+
+        if ($currentUser->id == $objectModel->user_id){
             $accession = true;
         }
         else if($currentUser->role->name == 'Admin' ){
@@ -24,7 +27,7 @@ class CCDetail extends detailAction
         }
         else if($currentUser->role->name == 'Supervisor' ){
             foreach ($currentUser->child as $child){
-                if ($child->id == $record) {
+                if ($child->id == $objectModel->user_id) {
                     $accession = true;
                     break;
                 }
@@ -32,6 +35,7 @@ class CCDetail extends detailAction
         }
         return $accession;
     }
+
     public function convertData($objectModel)
     {
         $objectModel->entity;

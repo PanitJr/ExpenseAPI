@@ -27,6 +27,12 @@ Route::get('/', function () {
 	return view('welcome');
 });
 
+Route::get('Expense/PDF/{filename}', 'ExpensePDF@Download');
+Route::match(['post','options'],'Expense/PDF', 'ExpensePDF@Process');
+
+Route::get('AllExpense/PDF/{filename}', 'AllExpensePDF@Download');
+Route::match(['post','options'],'AllExpense/PDF', 'AllExpensePDF@Process');
+
 Route::get('test', 'testController@test');
 
 

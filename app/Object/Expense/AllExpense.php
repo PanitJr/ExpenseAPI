@@ -31,7 +31,7 @@ class AllExpense extends CCList
 
         $objectClass =  Loader::getObject('Expense');
 
-        $page = $request->get('limit',25);
+        $page = $request->get('limit',999999);
 
         $listModel = $this->getList($request,$objectClass);
 
@@ -44,14 +44,18 @@ class AllExpense extends CCList
         $listFilters =$this->getFilters();
 
         $list = $listModel->paginate($page,$select);
+
+        $total = $this->calTotal($list);
         $result=[
             'header' => $columns,
             'listInfo' => $list,
-            'listFilters'=>$listFilters
+            'listFilters'=>$listFilters,
+            'total'=> $total
         ];
         foreach ($result['listInfo'] as $index => $expense){
             $expense->retriveStatus;
             $expense->retriveOpportunity;
+            $expense->entity;
         }
         return $result;
     }
@@ -92,5 +96,12 @@ class AllExpense extends CCList
             'statuslis'=>$statuslis
         ];
         return $filters;
+    }
+    public function calTotal($list){
+        $total = 0;
+        foreach ($list as $expense){
+            $total+=$expense->total_price;
+        }
+        return $total;
     }
 }
