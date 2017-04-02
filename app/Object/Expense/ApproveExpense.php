@@ -36,6 +36,7 @@ class ApproveExpense
             $approve->expense = $objectModel->id;
             $approve->action = 2;
             $approve->user = $currentUser->id;
+            $approve->comment = $request->get('comment');
             $approve->save();
         }
         if($currentUser->role->name == 'Admin'){
@@ -44,6 +45,7 @@ class ApproveExpense
             $approve->expense = $objectModel->id;
             $approve->action = 1;
             $approve->user = $currentUser->id;
+            $approve->comment = $request->get('comment');
             $approve->save();
         }
 

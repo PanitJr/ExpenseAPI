@@ -68,10 +68,11 @@ class CCSaveItemTest extends TestCase
             'travel'=>[
                 'traveltype'=>1,
                 'travelsubtype'=>1,
-                'destination'=>'siam',
-                'origination'=>'test station'
+                'destination'=>1,
+                'origination'=>10
             ]
         ]);
+        var_dump($request->getContent());
         //var_dump($request->route('objectName'));
         $this->assertTrue($ccSave->checkPermission($request));
         $resualt = $ccSave->process($request);

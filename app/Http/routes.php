@@ -73,6 +73,8 @@ Route::group(['prefix' => 'api' ,"middleware" =>['cors','GZip']], function () {
         Route::match(['post','options'],'Expense/Approve/{record}', objectRun('ApproveExpense','Expense'));
         Route::match(['post','options'],'Expense/paid/{record}', objectRun('PaidExpense','Expense'));
 
+        Route::match(['post','options'],'Expense/ExpensePdf/{record}', objectRun('ExpensePdf','Expense'));
+
         Route::get('Expense/AllExpense', objectRun('AllExpense','Expense'));
 
         Route::get('Item/reject/{record}', objectRun('RejectItem','Item'));

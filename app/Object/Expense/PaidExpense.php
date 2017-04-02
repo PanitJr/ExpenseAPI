@@ -41,6 +41,7 @@ class PaidExpense
                 $approve->expense = $objectModel->id;
                 $approve->action = 4;
                 $approve->user = Auth::user()->id;
+                $approve->comment = $request->get('comment');
                 $approve->save();
                 $objectModel->save();
             }

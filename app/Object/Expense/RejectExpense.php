@@ -42,6 +42,7 @@ class RejectExpense
             $approve->expense = $objectModel->id;
             $approve->action = 3;
             $approve->user = $currentUser->id;
+            $approve->comment = $request->get('comment');
             $approve->save();
         $objectModel->save();
 

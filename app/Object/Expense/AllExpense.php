@@ -28,7 +28,6 @@ class AllExpense extends CCList
     }
     public function process($request)
     {
-
         $objectClass =  Loader::getObject('Expense');
 
         $page = $request->get('limit',999999);
@@ -91,16 +90,16 @@ class AllExpense extends CCList
         $opplis = DB::table('cc_opportunitys')->select('id','name')->where('active',1)->get();
         $statuslis = DB::table('expense_status')->get();
         $filters=[
-            'userlis'=>$userlis,
-            'opplis'=>$opplis,
-            'statuslis'=>$statuslis
+            'userlis'=> $userlis,
+            'opplis'=> $opplis,
+            'statuslis'=> $statuslis
         ];
         return $filters;
     }
     public function calTotal($list){
         $total = 0;
         foreach ($list as $expense){
-            $total+=$expense->total_price;
+            $total += $expense->total_price;
         }
         return $total;
     }
