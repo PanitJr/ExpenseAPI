@@ -22,12 +22,21 @@ class ExpensePDFTest extends TestCase
     use WithoutMiddleware;
     use DatabaseTransactions;
     protected $RequestContent;
+    protected $request;
     public function setUp(){
         parent::setUp();
-        Auth::loginUsingId(9);
+        Auth::loginUsingId(1001);
+        $Expense = new \App\Object\Expense\Expense();
+        $Expense->expensename = 'test_expense_3';
+        $Expense->total_price = 1500;
+        $Expense->user_id = 1001;
+        $Expense->status = 1;
+        $Expense->opportunity = 99;
+        $Expense->approver = 9;
+        $Expense->save();
         $this->RequestContent = "{
       \"id\": 783,
-      \"expensename\": \"Panit-Develop-Expense-783\",
+      \"expensename\": \"yaya-Expense-783\",
       \"total_price\": \"1707.00\",
       \"user_id\": 9,
       \"status\": 3,
@@ -442,15 +451,11 @@ class ExpensePDFTest extends TestCase
         \"status\": 1
       }
     }";
-    }
-    public function test(){
-
-        $expensePdf = new App\Object\Expense\ExpensePdf();
         $requestMock = Mockery::mock(Request::class)
             ->makePartial()
             ->shouldReceive('path')
             ->times()
-            ->andReturn('api/Expense/ExpensePDF/0');
+            ->andReturn('api/Expense/ExpensePdf/'.$Expense->id);
 
         app()->instance('request', $requestMock->getMock());
 
@@ -460,12 +465,24 @@ class ExpensePDFTest extends TestCase
             return (new Route('Post', 'api/{objectName}/ExpensePdf/{record?}', []))->bind($request);
         });
         $request->content = $this->RequestContent;
-        $res = $expensePdf->process($request);
+        $this->request = $request;
+    }
+    public function testProcess(){
+        $expensePdf = new App\Object\Expense\ExpensePdf();
+        $res = $expensePdf->process($this->request);
         var_dump($res);
         $this->assertArrayHasKey('success',$res);
         $this->assertArrayHasKey('url',$res);
         $this->assertTrue($res['success']);
         $this->assertNotEquals(null,$res['url']);
-        $this->assertTrue(true);
+    }
+    public function testCheckPermission(){
+        $expensePdf = new App\Object\Expense\ExpensePdf();
+        Auth::loginUsingId(1000);
+        $this->assertTrue($expensePdf->checkPermission($this->request));
+        Auth::loginUsingId(1001);
+        $this->assertTrue($expensePdf->checkPermission($this->request));
+        Auth::loginUsingId(1003);
+        $this->assertFalse($expensePdf->checkPermission($this->request));
     }
 }

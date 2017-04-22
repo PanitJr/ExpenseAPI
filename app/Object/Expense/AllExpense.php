@@ -28,21 +28,22 @@ class AllExpense extends CCList
     }
     public function process($request)
     {
+
         $objectClass =  Loader::getObject('Expense');
 
-        $page = $request->get('limit',999999);
+        /*$page = $request->get('limit',999999);
 
-        $listModel = $this->getList($request,$objectClass);
+        $listModel = */
 
         $columns = $this->getCollumns($request,$objectClass::instance());
 
-        $listModel = $this->filter($request,$listModel,$columns);
+        /*$listModel = $this->filter($request,$listModel,$columns);
 
-        $select = array_merge(["entitys.id"],$columns);
+        $select = array_merge(["entitys.id"],$columns);*/
 
         $listFilters =$this->getFilters();
 
-        $list = $listModel->paginate($page,$select);
+        $list = $this->getList($request,$objectClass);
 
         $total = $this->calTotal($list);
         $result=[
@@ -83,23 +84,29 @@ class AllExpense extends CCList
             $listModel  = $listModel->orderBy($order,$by);
         }
 
-        return $listModel;
+        $columns = $this->getCollumns($request,$objectClass::instance());
+        $listModel = $this->filter($request,$listModel,$columns);
+        $select = array_merge(["entitys.id"],$columns);
+        $page = $request->get('limit',999999);
+
+
+        return $listModel->paginate($page,$select);
     }
     public function getFilters(){
         $userlis = DB::table('users')->select('id','user_name')->get();
         $opplis = DB::table('cc_opportunitys')->select('id','name')->where('active',1)->get();
         $statuslis = DB::table('expense_status')->get();
         $filters=[
-            'userlis'=> $userlis,
-            'opplis'=> $opplis,
-            'statuslis'=> $statuslis
+            'userlis'=>$userlis,
+            'opplis'=>$opplis,
+            'statuslis'=>$statuslis
         ];
         return $filters;
     }
     public function calTotal($list){
         $total = 0;
         foreach ($list as $expense){
-            $total += $expense->total_price;
+            $total+=$expense->total_price;
         }
         return $total;
     }

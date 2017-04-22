@@ -14,14 +14,14 @@ class CCSave extends saveAction
 {
     public function checkPermission($request)
     {
-        $accession = false;
-        foreach (Auth::user()->profiles as $profile){
+        $accession = true;
+        /*foreach (Auth::user()->profiles as $profile){
             foreach ($profile->getPermission as $permission){
                 if($permission->name == 'create' && $permission->objectid == '9'){
                     $accession = true;
                 }
             }
-        }
+        }*/
         return $accession;
     }
     public function process($request)

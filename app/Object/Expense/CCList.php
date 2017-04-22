@@ -25,14 +25,14 @@ class CCList extends listAction
     public function process($request)
     {
         $parentResult = parent::process($request);
-        $result = $this->recordControl($parentResult);
-        return $result;
+        $parentResult['listInfo'] = $this->recordControl($parentResult['listInfo']);
+        return $parentResult;
     }
     public function recordControl($result)
     {
         $currentUser = Auth::user();
         $currentUser->role;
-        foreach ($result['listInfo'] as $index => $expense){
+        foreach ($result as $index => $expense){
             $expense->entity;
             if($currentUser->role->name == 'Admin'){
                 $expense->retriveStatus;
@@ -52,12 +52,12 @@ class CCList extends listAction
                         continue;
                     }
                     else{
-                        unset($result['listInfo'][$index]);
+                        unset($result[$index]);
                     }
                 }
             }
             else{
-                unset($result['listInfo'][$index]);
+                unset($result[$index]);
             }
         }
         return $result;

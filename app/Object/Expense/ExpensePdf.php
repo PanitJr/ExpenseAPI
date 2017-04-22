@@ -8,6 +8,7 @@
 
 namespace App\Object\Expense;
 
+use App\CC\Loader;
 use Illuminate\Support\Facades\Auth;
 use Storage;
 use Response;
@@ -19,8 +20,25 @@ class ExpensePdf
     {
         $accession=false;
         //Auth::loginUsingId(9);
-        if (Auth::user()->role->name == 'Admin'){
+        $currentUser = Auth::user();
+        $currentUser->role;
+        $record = (int)$request->route('record');
+        $objectClass =  Loader::getObject('Expense');
+        $objectModel = $objectClass::find($record);
+
+        if ($currentUser->id == $objectModel->user_id){
             $accession = true;
+        }
+        else if($currentUser->role->name == 'Admin' ){
+            $accession = true;
+        }
+        else if($currentUser->role->name == 'Supervisor' ){
+            foreach ($currentUser->child as $child){
+                if ($child->id == $objectModel->user_id) {
+                    $accession = true;
+                    break;
+                }
+            }
         }
         return $accession;
     }
@@ -47,7 +65,7 @@ class ExpensePdf
         {
             return array(
                 "success" => true,
-                "url" => url("Expense/PDF/". $id .".pdf")
+                "url" => "Expense/PDF/". $id .".pdf"
             );
         }
         else
