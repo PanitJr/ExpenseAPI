@@ -48,9 +48,9 @@ class ExpensePdf
         putenv('LANGUAGE=en:el');
         /*return $request->getContent();
         exit;*/
-        $ExpenseDetail = new CCDetail();
-        $detail = $ExpenseDetail->process($request);
-        $mapping = json_encode($detail['data']);
+        /*$ExpenseDetail = new CCDetail();
+        $detail = $ExpenseDetail->process($request);*/
+        $mapping = $request->getContent();
 
         $ExpensePDFGen = app_path('Service/ExpensePDFGen.jar');
 
