@@ -7,7 +7,7 @@
  */
 
 
-use app\Http\Controllers\ExpensePDF;
+use app\Http\Controllers\ExpensePDFController;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Object\Expense\CCDetail;

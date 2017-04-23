@@ -27,11 +27,9 @@ Route::get('/', function () {
 	return view('welcome');
 });
 
-Route::get('Expense/PDF/{filename}', 'ExpensePDF@Download');
-Route::match(['post','options'],'Expense/PDF', 'ExpensePDF@Process');
+Route::get('Expense/PDF/{filename}', 'ExpensePDFController@Download');
 
-Route::get('AllExpense/PDF/{filename}', 'AllExpensePDF@Download');
-Route::match(['post','options'],'AllExpense/PDF', 'AllExpensePDF@Process');
+Route::get('AllExpense/PDF/{filename}', 'AllExpensePDFController@Download');
 
 Route::get('test', 'testController@test');
 
@@ -73,7 +71,8 @@ Route::group(['prefix' => 'api' ,"middleware" =>['cors','GZip']], function () {
         Route::match(['post','options'],'Expense/Approve/{record}', objectRun('ApproveExpense','Expense'));
         Route::match(['post','options'],'Expense/paid/{record}', objectRun('PaidExpense','Expense'));
 
-        Route::match(['post','options'],'Expense/ExpensePdf/{record}', objectRun('ExpensePdf','Expense'));
+        Route::match(['post','options'],'{objectName}/ExpensePdf/{record}', objectRun('ExpensePdf','Expense'));
+        Route::match(['post','options'],'{objectName}/AllExpensePdf', objectRun('AllExpensePdf','Expense'));
 
         Route::get('Expense/AllExpense', objectRun('AllExpense','Expense'));
 

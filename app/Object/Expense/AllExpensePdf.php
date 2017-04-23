@@ -29,9 +29,10 @@ class AllExpensePdf
     {
         putenv('LC_ALL=en_US.UTF-8');
         putenv('LANGUAGE=en:el');
+
         $mapping = $request->getContent();
 
-        $AllExpensePDFGen = app_path('Service/AllExpensePDFGen.jar');
+        $AllExpensePDFGen = app_path('Service/AllExpensePDF.jar');
 
         $id = md5(microtime(true));
 
@@ -53,7 +54,7 @@ class AllExpensePdf
         }
         else
         {
-            var_dump($result);
+            var_dump($request->getContent());
             list($error,$error_message)=explode("||",$result);
             return array(
                 "success"=>false,

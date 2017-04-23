@@ -46,7 +46,11 @@ class ExpensePdf
     {
         putenv('LC_ALL=en_US.UTF-8');
         putenv('LANGUAGE=en:el');
-        $mapping = $request->getContent();
+        /*return $request->getContent();
+        exit;*/
+        $ExpenseDetail = new CCDetail();
+        $detail = $ExpenseDetail->process($request);
+        $mapping = json_encode($detail['data']);
 
         $ExpensePDFGen = app_path('Service/ExpensePDFGen.jar');
 
@@ -65,7 +69,7 @@ class ExpensePdf
         {
             return array(
                 "success" => true,
-                "url" => "Expense/PDF/". $id .".pdf"
+                "url" => url("Expense/PDF/". $id .".pdf")
             );
         }
         else

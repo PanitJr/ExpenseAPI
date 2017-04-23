@@ -50,7 +50,8 @@ class AllExpense extends CCList
             'header' => $columns,
             'listInfo' => $list,
             'listFilters'=>$listFilters,
-            'total'=> $total
+            'total_price'=> $total
+
         ];
         foreach ($result['listInfo'] as $index => $expense){
             $expense->retriveStatus;
